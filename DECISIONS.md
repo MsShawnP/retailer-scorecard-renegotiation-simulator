@@ -145,6 +145,17 @@ Each entry:
   that are input parameters like lever rates). Only apply to
   dollar-denominated results.
 
+### 2026-06-03 — Distributors (KeHE, UNFI) are never standalone ranking entries
+- **Why:** R6 requires distributor costs folded into the retailer they
+  serve. A CEO thinks in terms of retail relationships, not distributor
+  relationships. Showing KeHE as its own bar double-counted margin and
+  inflated the retailer count.
+- **Scope:** retailers.json schema, ranking chart, any future retailer
+  additions
+- **Do not:** Add a distributor as a top-level entry in retailers.json.
+  Instead, set `is_via_distributor: true`, `distributor_name`, and
+  `distributor_margin_rate` on the retailers that distributor serves.
+
 ---
 
 ## Output Formats
