@@ -146,6 +146,18 @@ before building.
 
 ---
 
+## 2026-06-03 23:15 — Session wrap: validate_calculations.py gap closed + arc wrap
+
+**Started from:** /ce:compound complete, arc finished. Spawned task for validate_calculations.py extension landed separately.
+
+**Did:** Confirmed validate_calculations.py now covers all public functions (Python side gap closed). Discussed #26 non-null assertion best practice — left as-is (pragmatic, invariant obvious from context). Logged and committed.
+
+**State:** Arc fully complete. All 11 Heavy workflow steps done. validate_calculations.py gap documented in dual-engine doc is closed for Python side. Deployed, pushed, clean.
+
+**Next:** Archive arc in PLAN.md, start next project.
+
+---
+
 ## 2026-06-03 23:00 — Session wrap: /ce:compound complete, arc finished
 
 **Started from:** All 8 units + 29 review fixes deployed. Step 10 of 11 remaining: /ce:compound.
