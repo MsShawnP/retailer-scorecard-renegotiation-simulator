@@ -1,0 +1,193 @@
+/* ── RankingView — animated D3 ranking chart ──────────────────────────────── */
+
+.ranking {
+  margin-bottom: var(--section-gap);
+}
+
+/* ── Mode toggle controls ────────────────────────────────────────────────── */
+
+.ranking-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.ranking-btn {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border: 1px solid var(--navy);
+  background: transparent;
+  color: var(--navy);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background 150ms ease-out, color 150ms ease-out, opacity 150ms ease-out;
+}
+
+.ranking-btn.active {
+  background: var(--navy);
+  color: white;
+}
+
+.ranking-btn:hover:not(.active) {
+  background: var(--navy);
+  color: white;
+  opacity: 0.8;
+}
+
+.ranking-btn:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
+}
+
+/* ── Chart wrapper (positions callout card absolutely) ───────────────────── */
+
+.ranking-chart-wrap {
+  position: relative;
+}
+
+.ranking-svg {
+  width: 100%;
+  overflow: visible;
+}
+
+/* ── The critical animation rule ─────────────────────────────────────────── */
+/* When React re-renders with new y-positions after mode switch,             */
+/* CSS interpolates the transform. React owns the DOM throughout.            */
+
+.ranking-bar-group {
+  cursor: pointer;
+  transition: transform 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ranking-bar-group {
+    transition: none;
+  }
+}
+
+/* ── Chart elements ──────────────────────────────────────────────────────── */
+
+.ranking-zero-line {
+  stroke: var(--gridline);
+  stroke-width: 1;
+}
+
+.ranking-bar {
+  transition: opacity 200ms ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ranking-bar {
+    transition: none;
+  }
+}
+
+.ranking-label {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  fill: var(--text-primary);
+  user-select: none;
+}
+
+.ranking-value {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--text-primary);
+  user-select: none;
+}
+
+.ranking-value-negative {
+  fill: var(--tokyo-40);
+}
+
+.ranking-rate {
+  font-weight: 400;
+  fill: var(--text-secondary);
+}
+
+/* ── Dark click-to-pin callout card ──────────────────────────────────────── */
+
+.ranking-card {
+  position: absolute;
+  top: 8px;
+  right: 0;
+  width: 280px;
+  background: var(--card-bg);
+  color: var(--card-text);
+  padding: 20px;
+  border-radius: 2px;
+  border: 1px solid var(--card-border);
+}
+
+.ranking-card-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--card-subtitle);
+  font-size: 18px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0;
+  font-family: var(--font-sans);
+}
+
+.ranking-card-close:hover {
+  color: var(--card-text);
+  background: none;
+  opacity: 0.8;
+}
+
+.ranking-card-close:focus-visible {
+  outline: 2px solid var(--card-text);
+  outline-offset: 2px;
+}
+
+.ranking-card-name {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  padding-right: 24px; /* clear the close button */
+}
+
+.ranking-card-revenue {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--card-subtitle);
+  margin-bottom: 16px;
+}
+
+.ranking-card-layers {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ranking-card-row {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--card-item-text, var(--card-subtitle));
+}
+
+.ranking-card-total {
+  border-top: 1px solid var(--card-border);
+  padding-top: 8px;
+  margin-top: 4px;
+  font-weight: 600;
+  color: var(--card-text);
+}
+
+.ranking-card-value.neg {
+  color: var(--tokyo-70);
+}
+
+.ranking-card-value.pos {
+  color: var(--hk-70);
+}
