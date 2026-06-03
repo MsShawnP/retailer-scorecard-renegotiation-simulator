@@ -29,6 +29,12 @@
   margin-bottom: 28px;
 }
 
+.simulator-tab-group {
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+}
+
 .simulator-tab {
   background: transparent;
   color: var(--text-primary);
@@ -55,7 +61,50 @@
   border-color: var(--navy);
 }
 
+.simulator-tab.walked-away {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
 .simulator-tab:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
+}
+
+/* Walk-away toggle button — sits flush right of its tab */
+.walk-away-btn {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-left: none;
+  border-radius: 0 2px 2px 0;
+  padding: 0 8px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 150ms ease-out, color 150ms ease-out;
+  line-height: 1;
+}
+
+.walk-away-btn:hover {
+  background: var(--fail-bg);
+  color: var(--tokyo-40);
+  border-color: var(--tokyo-40);
+}
+
+.walk-away-btn.active {
+  background: var(--fail-bg);
+  color: var(--tokyo-40);
+  border-color: var(--tokyo-40);
+}
+
+.walk-away-btn.active:hover {
+  background: var(--pass-bg);
+  color: var(--hk-35);
+  border-color: var(--hk-35);
+}
+
+.walk-away-btn:focus-visible {
   outline: 2px solid var(--text-primary);
   outline-offset: 2px;
 }

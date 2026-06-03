@@ -5,6 +5,7 @@ import EntryView from './entry/EntryView';
 import MethodologyView from './methodology/MethodologyView';
 import RankingView from './ranking/RankingView';
 import SimulatorView from './simulator/SimulatorView';
+import RedeploymentView from './redeployment/RedeploymentView';
 
 export default function App() {
   const [retailers, setRetailers] = useState<Retailer[] | null>(null);
@@ -12,6 +13,7 @@ export default function App() {
   const [view, setView] = useState<AppView>('entry');
   const [overridesByRetailerId, setOverridesByRetailerId] = useState<Record<string, LeverOverrides>>({});
   const [selectedRetailerId, setSelectedRetailerId] = useState<string>('walmart');
+  const [walkedAwayIds, setWalkedAwayIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     loadRetailers()
@@ -65,7 +67,23 @@ export default function App() {
             return next;
           })
         }
+        walkedAwayIds={walkedAwayIds}
+        onToggleWalkAway={(id) =>
+          setWalkedAwayIds((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) next.delete(id);
+            else next.add(id);
+            return next;
+          })
+        }
       />
+      {walkedAwayIds.size > 0 && (
+        <RedeploymentView
+          retailers={retailers}
+          walkedAwayIds={walkedAwayIds}
+          overridesByRetailerId={overridesByRetailerId}
+        />
+      )}
     </div>
   );
 }

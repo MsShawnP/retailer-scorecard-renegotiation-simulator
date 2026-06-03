@@ -19,6 +19,8 @@ interface Props {
   onSelectRetailer: (id: string) => void;
   onOverridesChange: (retailerId: string, overrides: LeverOverrides) => void;
   onResetRetailer: (retailerId: string) => void;
+  walkedAwayIds: Set<string>;
+  onToggleWalkAway: (id: string) => void;
 }
 
 // ── SimulatorView ─────────────────────────────────────────────────────────────
@@ -30,6 +32,8 @@ export default function SimulatorView({
   onSelectRetailer,
   onOverridesChange,
   onResetRetailer,
+  walkedAwayIds,
+  onToggleWalkAway,
 }: Props) {
   const retailer = retailers.find((r) => r.retailer_id === selectedRetailerId) ?? retailers[0];
   const overrides = overridesByRetailerId[retailer.retailer_id] ?? {};
@@ -69,17 +73,29 @@ export default function SimulatorView({
 
       {/* ── Retailer tabs ──────────────────────────────────────────────────── */}
       <div className="simulator-tabs" role="tablist" aria-label="Select retailer">
-        {retailers.map((r) => (
-          <button
-            key={r.retailer_id}
-            className={`simulator-tab${r.retailer_id === retailer.retailer_id ? ' active' : ''}`}
-            role="tab"
-            aria-selected={r.retailer_id === retailer.retailer_id}
-            onClick={() => onSelectRetailer(r.retailer_id)}
-          >
-            {r.name}
-          </button>
-        ))}
+        {retailers.map((r) => {
+          const isWalkedAway = walkedAwayIds.has(r.retailer_id);
+          return (
+            <div key={r.retailer_id} className="simulator-tab-group">
+              <button
+                className={`simulator-tab${r.retailer_id === retailer.retailer_id ? ' active' : ''}${isWalkedAway ? ' walked-away' : ''}`}
+                role="tab"
+                aria-selected={r.retailer_id === retailer.retailer_id}
+                onClick={() => onSelectRetailer(r.retailer_id)}
+              >
+                {r.name}
+              </button>
+              <button
+                className={`walk-away-btn${isWalkedAway ? ' active' : ''}`}
+                onClick={() => onToggleWalkAway(r.retailer_id)}
+                aria-label={isWalkedAway ? `Restore ${r.name}` : `Walk away from ${r.name}`}
+                title={isWalkedAway ? `Restore ${r.name}` : `Walk away from ${r.name}`}
+              >
+                {isWalkedAway ? '↩' : '✕'}
+              </button>
+            </div>
+          );
+        })}
       </div>
 
       {/* ── Contribution summary ───────────────────────────────────────────── */}
