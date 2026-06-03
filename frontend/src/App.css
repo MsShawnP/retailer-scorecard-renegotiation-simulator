@@ -268,6 +268,26 @@ body {
   color: var(--text-secondary);
 }
 
+/* ─── Navigation back button ─────────────────────────────── */
+
+.nav-back {
+  background: transparent;
+  color: var(--navy);
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0;
+  cursor: pointer;
+  margin-bottom: 32px;
+  transition: opacity 150ms ease-out;
+}
+
+.nav-back:hover {
+  background: transparent;
+  opacity: 0.7;
+}
+
 /* ─── Buttons ─────────────────────────────────────────────── */
 
 button {
