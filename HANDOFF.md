@@ -49,3 +49,15 @@ before building.
 **Next:** Address the three P1 doc review findings, then start /ce:work beginning with U1 (Cinderhaven schema audit + data enrichment).
 
 ---
+
+## 2026-06-03 15:20 — Resolved all 3 P1 doc review findings
+
+**What changed:** Resolved the three P1 findings that blocked building: (1) D3 animation → CSS transitions on SVG `<g>` elements, React owns DOM throughout; (2) payment_terms_days → corrected false "confirmed" claim, added to R18 alongside returns_rate; (3) R9 flip-point → per-lever break-even markers on sliders + compound summary card with goal-seek function.
+
+**Why:** These were blocking /ce:work. Each was a gap or contradiction in the plan that would cause confusion during implementation.
+
+**State:** Plan doc, requirements doc, and DECISIONS.md all updated and internally consistent. PLAN.md task checked off. No code written yet. All planning gates complete — ready to build.
+
+**Next:** Run /ce:work to start implementation, beginning with U1 (Cinderhaven schema audit + data enrichment).
+
+---

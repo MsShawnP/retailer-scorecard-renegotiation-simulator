@@ -66,7 +66,7 @@ deferred to a polish phase.
 - [x] Run /plan-eng-review for architecture gate (sound)
 - [x] /ce:brainstorm — requirements doc written
 - [x] /ce:plan — implementation plan written + doc review (5 agents)
-- [ ] Address P1 doc review findings before building
+- [x] Address P1 doc review findings before building
 - [ ] Build (8 units across 3 phases — see docs/plans/)
 
 ## Definition of done for this arc

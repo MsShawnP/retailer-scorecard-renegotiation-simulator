@@ -30,7 +30,7 @@ Specialty food founders rank retailers by gross revenue because true cost-to-ser
 - R6. Distributor costs (UNFI, KeHE) folded into the retailer they serve
 - R7. Interactive levers per cost component with negotiability tags
 - R8. Live ranking reshuffle + 24-month trajectory projection inside the simulator
-- R9. Levers show the flip point or exact terms change needed
+- R9. Per-lever break-even markers on sliders + compound break-even summary card below levers
 - R10. Walk-away toggle per retailer with initial impact summary
 - R11. Dedicated redeployment view: freed working capital, capacity, trade spend, net effect
 - R12. Capacity constraint sliders per remaining retailer in redeployment view
@@ -39,7 +39,7 @@ Specialty food founders rank retailers by gross revenue because true cost-to-ser
 - R15. Engine accepts per-retailer inputs + overrides, returns contributions and rankings
 - R16. Synthetic data from Cinderhaven, realistic enough for a skeptical CFO
 - R17. At least one major retailer runs net-negative honestly from the data
-- R18. `returns_rate` field added to Cinderhaven platform schema
+- R18. `returns_rate` and `payment_terms_days` fields added to Cinderhaven platform schema (both missing from retailers table)
 - R19. Lailara Design System v2 throughout (Canvas, Playfair Display, Source Sans 3, HK teal, click-to-pin, 200ms transitions)
 - R20. Desktop-first; must not break on mobile
 - R21. Fully self-explanatory without narration
@@ -101,7 +101,7 @@ Specialty food founders rank retailers by gross revenue because true cost-to-ser
 
 - **Static SPA with client-side calculations (not FastAPI):** Every Lailara portfolio piece is a static SPA. Client-side TypeScript calculations give zero-latency slider response. The Python engine exists separately for Q1 import. The brief's FastAPI assumption is replaced by the established pattern. (Confirmed in synthesis)
 - **Cloudflare Pages deployment (not Fly.io):** Follows from the static SPA architecture. Fly.io is reserved for full-stack apps (Competitive Shelf Intelligence). Cloudflare Pages via Wrangler is the standard deployment target
-- **React-renders-SVG for D3 integration:** D3 handles layout computation (scales, transitions, data joins); React renders SVG elements via JSX. Avoids D3/React DOM ownership conflicts. Matches retailer-deduction-recovery Sankey pattern
+- **React-renders-SVG with CSS transitions for animation:** D3 handles layout computation (scales, positions); React renders SVG elements via JSX. Animated reordering uses CSS `transition: transform 200ms ease-out` on bar `<g>` elements — React re-renders with new y-positions from D3 scales, and CSS interpolates the movement. No imperative D3 transitions, no DOM ownership conflicts. `prefers-reduced-motion` handled via `@media` query setting `transition: none`. Matches retailer-deduction-recovery Sankey pattern for D3-as-math, extends it with CSS animation for ranking reorder
 - **Dual calculation implementation:** Cost model formulas exist in Python (canonical for Q1, data generation) and TypeScript (frontend interactivity). Validated against each other via shared test fixtures. Maintenance cost accepted for zero-latency interaction
 - **D3 over Observable Plot:** Observable Plot is the team default for analytical charts, but the simulator's slider-driven real-time recalculation needs D3's imperative update model and precise transition control
 - **useState + useMemo for state management:** No Redux or context providers. Matches retailer-deduction-recovery's approach. Selection state as discriminated union type. Computed state via useMemo
@@ -117,12 +117,18 @@ Specialty food founders rank retailers by gross revenue because true cost-to-ser
 - **Client-side vs server-side calculations:** Client-side TypeScript — zero-latency slider response, matches every other portfolio piece
 - **D3 integration approach:** React-renders-SVG — from retailer-deduction-recovery Sankey pattern
 
+### Resolved During P1 Review (2026-06-03)
+
+- **D3 animation approach:** CSS transitions on SVG `<g>` elements, not imperative `d3-transition`. React re-renders with new positions from D3 scales; CSS `transition: transform 200ms ease-out` interpolates. No DOM ownership conflict
+- **payment_terms_days schema gap:** Confirmed missing from retailers table (earlier "confirmed" claim was wrong). Added to R18 alongside `returns_rate`
+- **R9 flip-point UI design:** Per-lever break-even markers (ticks on sliders) + compound break-even summary card below levers. Goal-seek function weighted by negotiability
+
 ### Deferred to Implementation
 
 - **Exact Q1 interface contract:** The Python engine's function signature will be finalized when the Question Engine's consumer requirements are clearer. Design for `calculate_contributions(retailers, overrides) -> contributions` shape
 - **Specific retailer list and financial profiles:** Determined during U1 data audit against Cinderhaven schema. Need 7+ retailers with at least one net-negative anchor
-- **Full Cinderhaven schema gaps beyond returns_rate:** Audit in U1 will surface all missing fields
-- **D3 transition performance with 7+ animated bars:** May need to profile and optimize during U4. Fallback: staggered transitions rather than simultaneous
+- **Full Cinderhaven schema gaps beyond returns_rate and payment_terms_days:** Audit in U1 will surface all missing fields
+- **CSS transition performance with 7+ animated bars:** May need to profile and optimize during U4. Fallback: staggered transitions rather than simultaneous
 
 ---
 
@@ -243,7 +249,7 @@ All calculations run synchronously in the browser. No API calls. No debouncing n
 
 **Approach:**
 - Query existing Cinderhaven tables for retailer-level data availability across all six cost layers
-- Identify gaps: `returns_rate` confirmed missing; audit for `labor_hours_by_retailer`, `freight_differential`, `pallet_surcharges`
+- Identify gaps: `returns_rate` and `payment_terms_days` confirmed missing from retailers table; audit for `labor_hours_by_retailer`, `freight_differential`, `pallet_surcharges`
 - Enrich the platform with missing fields using realistic synthetic values
 - Design retailer profiles: Walmart (high revenue, high costs → net-negative anchor), Costco (moderate revenue, efficient → positive), Whole Foods via UNFI (distributor costs folded in), 4+ regionals/specialty with varying profiles
 - Export to JSON via Python script using the established `flyctl proxy` → Python → JSON pipeline
@@ -381,7 +387,7 @@ All calculations run synchronously in the browser. No API calls. No debouncing n
 **Approach:**
 - React-renders-SVG pattern: D3 computes scales, positions, and transition interpolations; React renders `<rect>`, `<text>`, `<line>` via JSX
 - Two views of the same data: gross revenue bars (initial state) and true contribution bars (final state)
-- Animation: bars re-sort from gross ranking to contribution ranking with smooth D3 transitions (200ms ease-out per design system). Use `d3-transition` for position interpolation
+- Animation: bars re-sort from gross ranking to contribution ranking via CSS `transition: transform 200ms ease-out` on each bar `<g>` element. React re-renders with new y-positions computed from D3 scales; CSS handles the smooth interpolation. No imperative D3 transitions — React owns the DOM throughout. `prefers-reduced-motion` via `@media` query sets `transition: none`
 - HK teal sequential palette: darkest for largest contribution, lightest for smallest. Bars that flip from positive to negative transition to Tokyo palette
 - Every bar has a text label (retailer name + formatted value) as secondary identification channel
 - Horizontal gridlines only, `#d9d9d9`, Economist chart rules
@@ -463,6 +469,8 @@ All calculations run synchronously in the browser. No API calls. No debouncing n
 **Approach:**
 - Simulator panel: select a retailer to see its six cost levers as range sliders
 - Each lever shows: current value, slider range (realistic bounds), negotiability tag badge (color-coded: "Often" green, "Rarely" red, "Internal" grey, etc.)
+- Break-even markers (R9): each slider displays a tick mark at the value where that lever alone would flip the retailer's contribution to ≥ 0, holding all other levers at their current positions. Computed via `findBreakEvenValue(lever, otherValues)` in `simulatorDomain.ts`. If no break-even exists within the slider's range, the marker is absent and a tooltip reads "Cannot reach break-even with this lever alone"
+- Compound break-even summary (R9): below the levers, a card shows the minimum combined changes needed to reach break-even, weighted by negotiability (prefer "Often" levers over "Rarely" ones). Computed by a goal-seek function in `calculations.ts`. Shows specific values: "Trade Spend → X% + Payment Terms → Y days = break-even"
 - Lever interactions: changing trade spend % auto-recalculates absolute trade spend; changing payment terms recalculates working-capital drag using `terms × daily_revenue × cost_of_capital`
 - On any lever change: `useMemo` recalculates all contributions → ranking reorders → D3 animates the transition
 - Trajectory panel: a line/area chart showing the selected retailer's projected contribution over 24 months, assuming current growth rate with current (or adjusted) terms. Updates live with lever changes
@@ -479,6 +487,9 @@ All calculations run synchronously in the browser. No API calls. No debouncing n
 - Edge case: All levers at current values — contribution matches baseline, no ranking change
 - Edge case: Extreme lever values (0% trade spend, 0-day terms) — produces valid output, no NaN
 - Edge case: Adjusting levers until a negative retailer flips positive — ranking animation shows the flip
+- Happy path: R9 break-even marker appears on the trade spend slider at the correct value; moving the slider past the marker flips contribution positive
+- Edge case: R9 break-even not achievable via a single lever — marker absent, tooltip explains
+- Happy path: R9 compound summary shows minimum path to break-even using the most negotiable levers
 - Integration: Lever change in simulator updates the ranking chart (U4) in the same render cycle
 
 **Verification:**

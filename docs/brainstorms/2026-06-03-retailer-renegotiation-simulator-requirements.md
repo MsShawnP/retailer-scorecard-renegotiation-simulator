@@ -74,7 +74,7 @@ The status quo is gross revenue by retailer from the ERP, a separate deductions 
 
 - R7. The simulator provides interactive levers for each cost component per retailer. Each lever displays a negotiability tag (e.g., "Often," "Rarely," "Internal," "Sometimes," "Partly") indicating how winnable that lever is in a real negotiation.
 - R8. When levers change, the contribution ranking reshuffles live. A 24-month trajectory projection is visible within the simulator panel, showing the compounding cost or benefit of the current terms over time.
-- R9. When the visitor is satisfied with the renegotiation scenario, they can see the levers that would flip a retailer to positive, or the exact terms change needed.
+- R9. Each slider displays a break-even marker — a tick at the value where that lever alone (holding all others constant) would flip the retailer's contribution to positive. If no break-even exists within the lever's realistic range, the marker is absent and a tooltip explains why. Below the levers, a summary card shows the nearest compound path to break-even: the minimum combined changes across the most negotiable levers, computed by a goal-seek function.
 
 **Walk-away and redeployment**
 
@@ -92,7 +92,7 @@ The status quo is gross revenue by retailer from the ERP, a separate deductions 
 
 - R16. All data is synthetic, sourced from the Cinderhaven Data Platform. The data must be realistic enough that a skeptical CFO finds the numbers plausible.
 - R17. At least one major retailer in the synthetic dataset runs at negative true contribution despite high gross revenue, producing the ranking inversion honestly from the data — not rigged.
-- R18. The `returns_rate` field must be added to the Cinderhaven platform schema (currently missing).
+- R18. The `returns_rate` and `payment_terms_days` fields must be added to the Cinderhaven platform schema (both currently missing from the retailers table).
 
 **Design and presentation**
 
@@ -149,7 +149,7 @@ The status quo is gross revenue by retailer from the ERP, a separate deductions 
 ## Dependencies / Assumptions
 
 - The Cinderhaven Data Platform schema must include `returns_rate` (currently missing) before the cost engine can model swell/returns per retailer.
-- `payment_terms_days` exists in the platform schema (confirmed).
+- The Cinderhaven Data Platform schema must include `payment_terms_days` on the retailers table (currently missing — doc review found it is not present despite earlier assumption). Required for the working-capital drag calculation.
 - The Question Engine Q1 will consume the Python cost-allocation engine; the interface contract should be defined before or during planning.
 - Synthetic data must be engineered so the ranking inversion is honest — driven by realistic cost attribution, not manufactured for dramatic effect.
 - Deployment infrastructure (Fly.io, Cloudflare, Docker) is available and the user has active accounts.

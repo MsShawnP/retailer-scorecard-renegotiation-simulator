@@ -63,11 +63,46 @@ Each entry:
   before every deploy. Every formula change must be made in both
   languages and verified against shared fixtures.
 
+### 2026-06-03 — CSS transitions for ranking animation, not D3 imperative transitions
+- **Why:** The plan specified both "React-renders-SVG" (React owns DOM)
+  and "use d3-transition" (D3 mutates DOM) — these conflict. CSS
+  transitions resolve it cleanly: React re-renders SVG `<g>` elements
+  with new y-positions from D3 scales, and `transition: transform 200ms
+  ease-out` handles the smooth interpolation. React owns the DOM
+  throughout. `prefers-reduced-motion` handled via `@media` query.
+- **Scope:** `frontend/src/ranking/` — RankingView and rankingDomain
+- **Do not:** Use `d3-transition` for the ranking animation. D3 is
+  math-only (scales, positions). If CSS transitions prove insufficient
+  for complex staggered effects, escalate — do not silently switch to
+  imperative D3.
+
+### 2026-06-03 — R9 flip-point UI: per-lever break-even markers + compound summary card
+- **Why:** R9 ("see the levers that would flip a retailer to positive")
+  was under-specified with no UI design. Resolved as: each slider shows
+  a tick mark at the break-even value for that lever alone (holding
+  others constant). Below the levers, a summary card shows the minimum
+  compound path to break-even weighted by negotiability. Goal-seek
+  function in calculations.ts.
+- **Scope:** `frontend/src/simulator/` — SimulatorView levers and
+  simulatorDomain break-even logic
+- **Do not:** Auto-move sliders to break-even values. The markers show
+  where break-even is; the visitor decides whether to go there.
+
 ---
 
 ## Data & Schema
 
-[Decisions about data sources, schemas, transformations]
+### 2026-06-03 — payment_terms_days must be added to Cinderhaven schema
+- **Why:** The requirements doc incorrectly claimed "confirmed" for
+  payment_terms_days on the retailers table. Doc review found it is
+  missing. Required for the working-capital drag formula:
+  `terms × daily_revenue × cost_of_capital`. Added to R18 alongside
+  returns_rate.
+- **Scope:** Cinderhaven platform schema, U1 data audit, R18
+- **Do not:** Assume payment_terms_days exists — it must be created
+  during the U1 schema audit alongside returns_rate.
+
+[Additional data/schema decisions]
 
 ---
 
