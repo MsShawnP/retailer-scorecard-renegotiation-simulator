@@ -37,7 +37,17 @@ Each entry:
 
 ## Visualization
 
-[Chart conventions, palette decisions, interactivity choices]
+### 2026-06-03 — Use Lailara Design System v2 for all visual design
+- **Why:** Consistent brand across portfolio pieces. The design system
+  (defined in parent CLAUDE.md) prescribes colors, typography, chart
+  rules, and interaction patterns. Specifically: HK teal sequential
+  palette for magnitude-ranked retailer data, Chicago navy for
+  interactive elements, Canvas background, Playfair Display headings,
+  Source Sans 3 body, click-to-pin interactions, 200ms ease-out
+  transitions, Economist-style chart rules.
+- **Scope:** global — all UI, charts, and interactive elements
+- **Do not:** Use arbitrary colors, Google Fonts CDN, hover tooltips,
+  gradients, 3D effects, or rounded corners beyond 2px border-radius
 
 ---
 
