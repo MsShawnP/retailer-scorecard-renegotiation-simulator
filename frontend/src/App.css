@@ -148,6 +148,16 @@ body {
   text-align: center;
 }
 
+/* ─── Ledger colors (positive = green, negative = red) ───── */
+
+.val-pos {
+  color: var(--hk-25);
+}
+
+.val-neg {
+  color: var(--tokyo-40);
+}
+
 /* ─── Brand ───────────────────────────────────────────────── */
 
 .brand {

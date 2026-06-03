@@ -196,37 +196,52 @@ function ComparisonTable({ before, after }: ComparisonTableProps) {
   const rows: Array<{
     label: string;
     beforeVal: string;
+    beforeNum: number;
     afterVal: string;
+    afterNum: number;
     delta: number;
     formatDelta: (n: number) => string;
+    isMonetary: boolean;
   }> = [
     {
       label: 'Total Revenue',
       beforeVal: formatDollars(before.total_revenue),
+      beforeNum: before.total_revenue,
       afterVal: formatDollars(after.total_revenue),
+      afterNum: after.total_revenue,
       delta: after.total_revenue - before.total_revenue,
       formatDelta: formatDollars,
+      isMonetary: true,
     },
     {
       label: 'True Contribution',
       beforeVal: formatDollars(before.total_contribution),
+      beforeNum: before.total_contribution,
       afterVal: formatDollars(after.total_contribution),
+      afterNum: after.total_contribution,
       delta: after.total_contribution - before.total_contribution,
       formatDelta: formatDollars,
+      isMonetary: true,
     },
     {
       label: 'Working Capital',
       beforeVal: formatDollars(before.total_working_capital),
+      beforeNum: before.total_working_capital,
       afterVal: formatDollars(after.total_working_capital),
+      afterNum: after.total_working_capital,
       delta: after.total_working_capital - before.total_working_capital,
       formatDelta: (n) => (n === 0 ? '—' : formatDollars(n)),
+      isMonetary: true,
     },
     {
       label: 'Retailers',
       beforeVal: String(before.retailer_count),
+      beforeNum: before.retailer_count,
       afterVal: String(after.retailer_count),
+      afterNum: after.retailer_count,
       delta: after.retailer_count - before.retailer_count,
       formatDelta: (n) => (n >= 0 ? `+${n}` : String(n)),
+      isMonetary: false,
     },
   ];
 
@@ -267,11 +282,18 @@ function ComparisonTable({ before, after }: ComparisonTableProps) {
               ? '—'
               : `${row.delta > 0 ? '+' : ''}${row.formatDelta(row.delta)}`;
 
+          const beforeClass = row.isMonetary
+            ? row.beforeNum >= 0 ? 'val-pos' : 'val-neg'
+            : '';
+          const afterClass = row.isMonetary
+            ? row.afterNum >= 0 ? 'val-pos' : 'val-neg'
+            : '';
+
           return (
             <tr key={row.label}>
               <td>{row.label}</td>
-              <td>{row.beforeVal}</td>
-              <td>{row.afterVal}</td>
+              <td className={beforeClass}>{row.beforeVal}</td>
+              <td className={afterClass}>{row.afterVal}</td>
               <td className={effectiveClass}>{deltaStr}</td>
             </tr>
           );

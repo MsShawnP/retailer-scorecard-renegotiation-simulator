@@ -99,6 +99,10 @@
   user-select: none;
 }
 
+.ranking-value-positive {
+  fill: var(--hk-25);
+}
+
 .ranking-value-negative {
   fill: var(--tokyo-40);
 }
