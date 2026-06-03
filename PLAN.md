@@ -61,12 +61,13 @@ to the next. Visualizations get reviewed in their own slice, not
 deferred to a polish phase.
 
 - [x] Run /clarify to scope the work
-- [ ] Run /office-hours to stress-test the idea
-- [ ] Run /plan-ceo-review for product gate
-- [ ] Run /plan-eng-review for architecture gate
-- [ ] /ce:brainstorm — spec
-- [ ] /ce:plan — research agents + detailed plan
-- [ ] Build (tasks to be defined after planning)
+- [x] Run /office-hours to stress-test the idea (green light)
+- [x] Run /plan-ceo-review for product gate (ship it)
+- [x] Run /plan-eng-review for architecture gate (sound)
+- [x] /ce:brainstorm — requirements doc written
+- [x] /ce:plan — implementation plan written + doc review (5 agents)
+- [ ] Address P1 doc review findings before building
+- [ ] Build (8 units across 3 phases — see docs/plans/)
 
 ## Definition of done for this arc
 
