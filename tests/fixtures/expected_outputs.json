@@ -1,0 +1,135 @@
+[
+  {
+    "retailer_id": "walmart",
+    "gross_revenue": 3614562,
+    "expected": {
+      "gross_margin": 1626552.9,
+      "deductions": 296394.08,
+      "trade_spend": 1012077.36,
+      "working_capital_drag": 71300.95,
+      "labor_overhead": 100135.0,
+      "swell_returns": 90364.05,
+      "logistics_variance": 162655.29,
+      "distributor_margin": 0.0,
+      "total_cost_layers": 1732926.73,
+      "true_contribution": -106373.83,
+      "contribution_margin_rate": -0.0294,
+      "rank_by_gross": 1,
+      "rank_by_contribution": 7
+    }
+  },
+  {
+    "retailer_id": "kroger",
+    "gross_revenue": 3499113,
+    "expected": {
+      "gross_margin": 1679574.24,
+      "deductions": 262433.47,
+      "trade_spend": 769804.86,
+      "working_capital_drag": 51767.7,
+      "labor_overhead": 92960.0,
+      "swell_returns": 62984.03,
+      "logistics_variance": 111971.62,
+      "distributor_margin": 0.0,
+      "total_cost_layers": 1351921.68,
+      "true_contribution": 327652.56,
+      "contribution_margin_rate": 0.0936,
+      "rank_by_gross": 2,
+      "rank_by_contribution": 6
+    }
+  },
+  {
+    "retailer_id": "whole_foods",
+    "gross_revenue": 3283376,
+    "expected": {
+      "gross_margin": 1707355.52,
+      "deductions": 180585.68,
+      "trade_spend": 459672.64,
+      "working_capital_drag": 32383.98,
+      "labor_overhead": 81865.0,
+      "swell_returns": 39400.51,
+      "logistics_variance": 65667.52,
+      "distributor_margin": 328337.6,
+      "total_cost_layers": 1187912.93,
+      "true_contribution": 519442.59,
+      "contribution_margin_rate": 0.1582,
+      "rank_by_gross": 3,
+      "rank_by_contribution": 4
+    }
+  },
+  {
+    "retailer_id": "kehe",
+    "gross_revenue": 2828272,
+    "expected": {
+      "gross_margin": 1442418.72,
+      "deductions": 118787.42,
+      "trade_spend": 339392.64,
+      "working_capital_drag": 27895.29,
+      "labor_overhead": 22505.0,
+      "swell_returns": 42424.08,
+      "logistics_variance": 42424.08,
+      "distributor_margin": 226261.76,
+      "total_cost_layers": 819690.27,
+      "true_contribution": 622728.45,
+      "contribution_margin_rate": 0.2202,
+      "rank_by_gross": 4,
+      "rank_by_contribution": 3
+    }
+  },
+  {
+    "retailer_id": "sprouts",
+    "gross_revenue": 2636249,
+    "expected": {
+      "gross_margin": 1397211.97,
+      "deductions": 216172.42,
+      "trade_spend": 263624.9,
+      "working_capital_drag": 26001.36,
+      "labor_overhead": 72065.0,
+      "swell_returns": 26362.49,
+      "logistics_variance": 57997.48,
+      "distributor_margin": 0.0,
+      "total_cost_layers": 662223.65,
+      "true_contribution": 734988.32,
+      "contribution_margin_rate": 0.2788,
+      "rank_by_gross": 5,
+      "rank_by_contribution": 1
+    }
+  },
+  {
+    "retailer_id": "costco",
+    "gross_revenue": 2094279,
+    "expected": {
+      "gross_margin": 1130910.66,
+      "deductions": 94242.55,
+      "trade_spend": 167542.32,
+      "working_capital_drag": 20655.9,
+      "labor_overhead": 62895.0,
+      "swell_returns": 31414.18,
+      "logistics_variance": 25131.35,
+      "distributor_margin": 0.0,
+      "total_cost_layers": 401881.31,
+      "true_contribution": 729029.35,
+      "contribution_margin_rate": 0.3481,
+      "rank_by_gross": 6,
+      "rank_by_contribution": 2
+    }
+  },
+  {
+    "retailer_id": "regional_group",
+    "gross_revenue": 2049027,
+    "expected": {
+      "gross_margin": 1024513.5,
+      "deductions": 149578.97,
+      "trade_spend": 245883.24,
+      "working_capital_drag": 30314.37,
+      "labor_overhead": 53585.0,
+      "swell_returns": 30735.4,
+      "logistics_variance": 61470.81,
+      "distributor_margin": 0.0,
+      "total_cost_layers": 571567.8,
+      "true_contribution": 452945.7,
+      "contribution_margin_rate": 0.2211,
+      "rank_by_gross": 7,
+      "rank_by_contribution": 5
+    }
+  }
+]
