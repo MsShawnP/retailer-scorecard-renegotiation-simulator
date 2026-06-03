@@ -74,19 +74,19 @@ deferred to a polish phase.
 - [x] Build U5: Entry point + navigation + methodology panel
 - [x] Build U6: Renegotiation simulator with trajectory
 - [x] Build U7: Walk-away toggle + redeployment view
-- [ ] Build U8: Design polish + Cloudflare Pages deployment
+- [x] Build U8: Design polish + Cloudflare Pages deployment
 
 ## Definition of done for this arc
 
-- [ ] Deployed interactive tool on Cloudflare Pages accessible from portfolio
-- [ ] Visitor sees gross-vs-true ranking with animated inversion
-- [ ] Methodology panel explains all six cost layers transparently
-- [ ] Renegotiation levers with negotiability tags reshuffle rankings live
-- [ ] Redeployment math with capacity constraint sliders shows consequence
-- [ ] Trajectory view shows 24-month compounding loss projection
-- [ ] Python cost-allocation engine importable by Question Engine Q1
-- [ ] All data sourced from Cinderhaven platform (gaps filled)
-- [ ] UI fully self-explanatory without narration
+- [x] Deployed interactive tool on Cloudflare Pages accessible from portfolio
+- [x] Visitor sees gross-vs-true ranking with animated inversion
+- [x] Methodology panel explains all six cost layers transparently
+- [x] Renegotiation levers with negotiability tags reshuffle rankings live
+- [x] Redeployment math with capacity constraint sliders shows consequence
+- [x] Trajectory view shows 24-month compounding loss projection
+- [x] Python cost-allocation engine importable by Question Engine Q1
+- [x] All data sourced from Cinderhaven platform (gaps filled)
+- [x] UI fully self-explanatory without narration
 
 ---
 

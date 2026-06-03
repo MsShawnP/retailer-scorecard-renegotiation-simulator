@@ -84,6 +84,17 @@ export default function App() {
           overridesByRetailerId={overridesByRetailerId}
         />
       )}
+      <div className="footer">
+        <p>
+          All figures synthetic. Rates calibrated against CPG industry benchmarks
+          for specialty food brands at the $20–30M revenue scale.
+        </p>
+        <p>
+          Built by <a href="https://lailarallc.com">Lailara LLC</a> —
+          data hygiene and analytics consulting for specialty food brands
+          scaling into national retail.
+        </p>
+      </div>
     </div>
   );
 }

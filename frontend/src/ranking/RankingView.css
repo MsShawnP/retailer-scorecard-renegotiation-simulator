@@ -191,3 +191,27 @@
 .ranking-card-value.pos {
   color: var(--hk-70);
 }
+
+/* ── Mobile ──────────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .ranking-controls {
+    flex-wrap: wrap;
+  }
+
+  .ranking-card {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    margin-top: 16px;
+  }
+
+  .ranking-label {
+    font-size: 11px;
+  }
+
+  .ranking-value {
+    font-size: 11px;
+  }
+}
