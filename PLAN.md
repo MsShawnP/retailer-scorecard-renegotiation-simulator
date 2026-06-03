@@ -67,7 +67,14 @@ deferred to a polish phase.
 - [x] /ce:brainstorm — requirements doc written
 - [x] /ce:plan — implementation plan written + doc review (5 agents)
 - [x] Address P1 doc review findings before building
-- [ ] Build (8 units across 3 phases — see docs/plans/)
+- [x] Build U1: Cinderhaven schema audit + synthetic retailer profiles
+- [x] Build U2: Python cost-allocation engine (test-first, 16 tests)
+- [x] Build U3: Frontend scaffold + TypeScript engine (cross-validated)
+- [x] Build U4: Ranking visualization with animated flip
+- [x] Build U5: Entry point + navigation + methodology panel
+- [x] Build U6: Renegotiation simulator with trajectory
+- [x] Build U7: Walk-away toggle + redeployment view
+- [ ] Build U8: Design polish + Cloudflare Pages deployment
 
 ## Definition of done for this arc
 
