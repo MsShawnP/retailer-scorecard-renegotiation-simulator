@@ -87,7 +87,6 @@ export function computeRedeployment(
 
   // Partition results into remaining and walked-away
   const remainingContribs = allContribs.filter((r) => !walkedAwayIds.has(r.retailer_id));
-  const walkedAwayContribs = allContribs.filter((r) => walkedAwayIds.has(r.retailer_id));
   const walkedAway = allRetailers.filter((r) => walkedAwayIds.has(r.retailer_id));
 
   // Before summary: derived from the full set
