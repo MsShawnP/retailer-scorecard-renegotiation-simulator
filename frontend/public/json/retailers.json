@@ -1,0 +1,415 @@
+[
+  {
+    "retailer_id": "walmart",
+    "name": "Walmart",
+    "channel_type": "retailer",
+    "is_via_distributor": false,
+    "distributor_name": null,
+    "gross_revenue": 3614562,
+    "cogs_rate": 0.55,
+    "deductions_rate": 0.082,
+    "deduction_breakdown": {
+      "otif_penalties": 0.03,
+      "shortage_claims": 0.025,
+      "pricing_chargebacks": 0.027
+    },
+    "trade_spend_rate": 0.28,
+    "trade_spend_breakdown": {
+      "slotting_amortized": 0.04,
+      "promo_mcb": 0.16,
+      "cooperative_advertising": 0.08
+    },
+    "payment_terms_days": 60,
+    "cost_of_capital": 0.12,
+    "labor_hours_compliance": 500,
+    "labor_hours_disputes": 2361,
+    "labor_rate": 35.0,
+    "returns_rate": 0.025,
+    "freight_differential_rate": 0.038,
+    "pallet_surcharge_rate": 0.005,
+    "moq_penalty_rate": 0.002,
+    "distributor_margin_rate": 0.0,
+    "growth_rate_annual": 0.05,
+    "lever_ranges": {
+      "trade_spend_rate": {
+        "min": 0.15,
+        "max": 0.35,
+        "current": 0.28
+      },
+      "deductions_rate": {
+        "min": 0.04,
+        "max": 0.12,
+        "current": 0.082
+      },
+      "payment_terms_days": {
+        "min": 30,
+        "max": 90,
+        "current": 60
+      },
+      "returns_rate": {
+        "min": 0.01,
+        "max": 0.04,
+        "current": 0.025
+      },
+      "logistics_rate": {
+        "min": 0.02,
+        "max": 0.07,
+        "current": 0.045
+      }
+    }
+  },
+  {
+    "retailer_id": "kroger",
+    "name": "Kroger",
+    "channel_type": "retailer",
+    "is_via_distributor": false,
+    "distributor_name": null,
+    "gross_revenue": 3499113,
+    "cogs_rate": 0.52,
+    "deductions_rate": 0.075,
+    "deduction_breakdown": {
+      "otif_penalties": 0.025,
+      "shortage_claims": 0.028,
+      "pricing_chargebacks": 0.022
+    },
+    "trade_spend_rate": 0.22,
+    "trade_spend_breakdown": {
+      "slotting_amortized": 0.035,
+      "promo_mcb": 0.12,
+      "cooperative_advertising": 0.065
+    },
+    "payment_terms_days": 45,
+    "cost_of_capital": 0.12,
+    "labor_hours_compliance": 400,
+    "labor_hours_disputes": 2256,
+    "labor_rate": 35.0,
+    "returns_rate": 0.018,
+    "freight_differential_rate": 0.026,
+    "pallet_surcharge_rate": 0.004,
+    "moq_penalty_rate": 0.002,
+    "distributor_margin_rate": 0.0,
+    "growth_rate_annual": 0.06,
+    "lever_ranges": {
+      "trade_spend_rate": {
+        "min": 0.12,
+        "max": 0.3,
+        "current": 0.22
+      },
+      "deductions_rate": {
+        "min": 0.04,
+        "max": 0.12,
+        "current": 0.075
+      },
+      "payment_terms_days": {
+        "min": 30,
+        "max": 60,
+        "current": 45
+      },
+      "returns_rate": {
+        "min": 0.008,
+        "max": 0.03,
+        "current": 0.018
+      },
+      "logistics_rate": {
+        "min": 0.015,
+        "max": 0.05,
+        "current": 0.032
+      }
+    }
+  },
+  {
+    "retailer_id": "whole_foods",
+    "name": "Whole Foods",
+    "channel_type": "retailer",
+    "is_via_distributor": true,
+    "distributor_name": "UNFI",
+    "gross_revenue": 3283376,
+    "cogs_rate": 0.48,
+    "deductions_rate": 0.055,
+    "deduction_breakdown": {
+      "otif_penalties": 0.015,
+      "shortage_claims": 0.022,
+      "pricing_chargebacks": 0.018
+    },
+    "trade_spend_rate": 0.14,
+    "trade_spend_breakdown": {
+      "slotting_amortized": 0.03,
+      "promo_mcb": 0.07,
+      "cooperative_advertising": 0.04
+    },
+    "payment_terms_days": 30,
+    "cost_of_capital": 0.12,
+    "labor_hours_compliance": 300,
+    "labor_hours_disputes": 2039,
+    "labor_rate": 35.0,
+    "returns_rate": 0.012,
+    "freight_differential_rate": 0.016,
+    "pallet_surcharge_rate": 0.003,
+    "moq_penalty_rate": 0.001,
+    "distributor_margin_rate": 0.1,
+    "growth_rate_annual": 0.1,
+    "lever_ranges": {
+      "trade_spend_rate": {
+        "min": 0.08,
+        "max": 0.22,
+        "current": 0.14
+      },
+      "deductions_rate": {
+        "min": 0.03,
+        "max": 0.09,
+        "current": 0.055
+      },
+      "payment_terms_days": {
+        "min": 15,
+        "max": 45,
+        "current": 30
+      },
+      "returns_rate": {
+        "min": 0.005,
+        "max": 0.025,
+        "current": 0.012
+      },
+      "logistics_rate": {
+        "min": 0.01,
+        "max": 0.04,
+        "current": 0.02
+      }
+    }
+  },
+  {
+    "retailer_id": "kehe",
+    "name": "KeHE",
+    "channel_type": "distributor",
+    "is_via_distributor": false,
+    "distributor_name": null,
+    "gross_revenue": 2828272,
+    "cogs_rate": 0.49,
+    "deductions_rate": 0.042,
+    "deduction_breakdown": {
+      "otif_penalties": 0.012,
+      "shortage_claims": 0.018,
+      "pricing_chargebacks": 0.012
+    },
+    "trade_spend_rate": 0.12,
+    "trade_spend_breakdown": {
+      "slotting_amortized": 0.025,
+      "promo_mcb": 0.06,
+      "cooperative_advertising": 0.035
+    },
+    "payment_terms_days": 30,
+    "cost_of_capital": 0.12,
+    "labor_hours_compliance": 200,
+    "labor_hours_disputes": 443,
+    "labor_rate": 35.0,
+    "returns_rate": 0.015,
+    "freight_differential_rate": 0.012,
+    "pallet_surcharge_rate": 0.002,
+    "moq_penalty_rate": 0.001,
+    "distributor_margin_rate": 0.08,
+    "growth_rate_annual": 0.07,
+    "lever_ranges": {
+      "trade_spend_rate": {
+        "min": 0.07,
+        "max": 0.18,
+        "current": 0.12
+      },
+      "deductions_rate": {
+        "min": 0.02,
+        "max": 0.08,
+        "current": 0.042
+      },
+      "payment_terms_days": {
+        "min": 15,
+        "max": 45,
+        "current": 30
+      },
+      "returns_rate": {
+        "min": 0.008,
+        "max": 0.025,
+        "current": 0.015
+      },
+      "logistics_rate": {
+        "min": 0.008,
+        "max": 0.03,
+        "current": 0.015
+      }
+    }
+  },
+  {
+    "retailer_id": "sprouts",
+    "name": "Sprouts",
+    "channel_type": "retailer",
+    "is_via_distributor": false,
+    "distributor_name": null,
+    "gross_revenue": 2636249,
+    "cogs_rate": 0.47,
+    "deductions_rate": 0.082,
+    "deduction_breakdown": {
+      "otif_penalties": 0.02,
+      "shortage_claims": 0.035,
+      "pricing_chargebacks": 0.027
+    },
+    "trade_spend_rate": 0.1,
+    "trade_spend_breakdown": {
+      "slotting_amortized": 0.02,
+      "promo_mcb": 0.055,
+      "cooperative_advertising": 0.025
+    },
+    "payment_terms_days": 30,
+    "cost_of_capital": 0.12,
+    "labor_hours_compliance": 150,
+    "labor_hours_disputes": 1909,
+    "labor_rate": 35.0,
+    "returns_rate": 0.01,
+    "freight_differential_rate": 0.018,
+    "pallet_surcharge_rate": 0.003,
+    "moq_penalty_rate": 0.001,
+    "distributor_margin_rate": 0.0,
+    "growth_rate_annual": 0.12,
+    "lever_ranges": {
+      "trade_spend_rate": {
+        "min": 0.06,
+        "max": 0.16,
+        "current": 0.1
+      },
+      "deductions_rate": {
+        "min": 0.04,
+        "max": 0.12,
+        "current": 0.082
+      },
+      "payment_terms_days": {
+        "min": 15,
+        "max": 45,
+        "current": 30
+      },
+      "returns_rate": {
+        "min": 0.005,
+        "max": 0.02,
+        "current": 0.01
+      },
+      "logistics_rate": {
+        "min": 0.01,
+        "max": 0.035,
+        "current": 0.022
+      }
+    }
+  },
+  {
+    "retailer_id": "costco",
+    "name": "Costco",
+    "channel_type": "retailer",
+    "is_via_distributor": false,
+    "distributor_name": null,
+    "gross_revenue": 2094279,
+    "cogs_rate": 0.46,
+    "deductions_rate": 0.045,
+    "deduction_breakdown": {
+      "otif_penalties": 0.01,
+      "shortage_claims": 0.02,
+      "pricing_chargebacks": 0.015
+    },
+    "trade_spend_rate": 0.08,
+    "trade_spend_breakdown": {
+      "slotting_amortized": 0.03,
+      "promo_mcb": 0.03,
+      "cooperative_advertising": 0.02
+    },
+    "payment_terms_days": 30,
+    "cost_of_capital": 0.12,
+    "labor_hours_compliance": 200,
+    "labor_hours_disputes": 1597,
+    "labor_rate": 35.0,
+    "returns_rate": 0.015,
+    "freight_differential_rate": 0.008,
+    "pallet_surcharge_rate": 0.002,
+    "moq_penalty_rate": 0.002,
+    "distributor_margin_rate": 0.0,
+    "growth_rate_annual": 0.08,
+    "lever_ranges": {
+      "trade_spend_rate": {
+        "min": 0.04,
+        "max": 0.14,
+        "current": 0.08
+      },
+      "deductions_rate": {
+        "min": 0.02,
+        "max": 0.08,
+        "current": 0.045
+      },
+      "payment_terms_days": {
+        "min": 15,
+        "max": 45,
+        "current": 30
+      },
+      "returns_rate": {
+        "min": 0.008,
+        "max": 0.025,
+        "current": 0.015
+      },
+      "logistics_rate": {
+        "min": 0.005,
+        "max": 0.025,
+        "current": 0.012
+      }
+    }
+  },
+  {
+    "retailer_id": "regional_group",
+    "name": "Regional Group",
+    "channel_type": "retailer",
+    "is_via_distributor": false,
+    "distributor_name": null,
+    "gross_revenue": 2049027,
+    "cogs_rate": 0.5,
+    "deductions_rate": 0.073,
+    "deduction_breakdown": {
+      "otif_penalties": 0.018,
+      "shortage_claims": 0.03,
+      "pricing_chargebacks": 0.025
+    },
+    "trade_spend_rate": 0.12,
+    "trade_spend_breakdown": {
+      "slotting_amortized": 0.025,
+      "promo_mcb": 0.06,
+      "cooperative_advertising": 0.035
+    },
+    "payment_terms_days": 45,
+    "cost_of_capital": 0.12,
+    "labor_hours_compliance": 300,
+    "labor_hours_disputes": 1231,
+    "labor_rate": 35.0,
+    "returns_rate": 0.015,
+    "freight_differential_rate": 0.025,
+    "pallet_surcharge_rate": 0.004,
+    "moq_penalty_rate": 0.001,
+    "distributor_margin_rate": 0.0,
+    "growth_rate_annual": 0.05,
+    "lever_ranges": {
+      "trade_spend_rate": {
+        "min": 0.07,
+        "max": 0.2,
+        "current": 0.12
+      },
+      "deductions_rate": {
+        "min": 0.04,
+        "max": 0.12,
+        "current": 0.073
+      },
+      "payment_terms_days": {
+        "min": 30,
+        "max": 60,
+        "current": 45
+      },
+      "returns_rate": {
+        "min": 0.008,
+        "max": 0.025,
+        "current": 0.015
+      },
+      "logistics_rate": {
+        "min": 0.015,
+        "max": 0.05,
+        "current": 0.03
+      }
+    }
+  }
+]
