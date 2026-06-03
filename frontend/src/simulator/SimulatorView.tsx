@@ -154,6 +154,12 @@ export default function SimulatorView({
           {formatPercent(retailer.growth_rate_annual)} annual growth rate.
         </p>
         <TrajectoryChart retailer={retailer} overrides={overrides} />
+        <p className="footnote">
+          Source: Cinderhaven Data Platform, synthetic data.
+          Projection assumes {formatPercent(retailer.growth_rate_annual)} annual
+          growth compounded monthly. Adjusted line reflects current lever
+          positions held constant over the projection period.
+        </p>
       </div>
 
       {/* ── Reset button ──────────────────────────────────────────────────── */}
