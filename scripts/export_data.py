@@ -54,10 +54,10 @@ except ImportError:
 # starting point. Without cogs_rate, cost layers cannot exceed gross revenue.
 # (See DECISIONS.md — 2026-06-03 schema decisions.)
 #
-# Key inversion story:
-#   Gross ranking: Walmart #1 → True contribution ranking: Walmart #7 (net negative)
-#   Gross ranking: Costco #6 → True contribution ranking: Costco #2
-#   Gross ranking: Sprouts #5 → True contribution ranking: Sprouts #1
+# Key inversion story (6 retailers — KeHE margin folded into Sprouts & Regional Group):
+#   Gross ranking: Walmart #1 → True contribution ranking: Walmart #6 (net negative)
+#   Gross ranking: Costco #5 → True contribution ranking: Costco #1
+#   Gross ranking: Sprouts #4 → True contribution ranking: Sprouts #2
 
 RETAILERS = [
     {
@@ -201,51 +201,11 @@ RETAILERS = [
         },
     },
     {
-        "retailer_id": "kehe",
-        "name": "KeHE",
-        "channel_type": "distributor",
-        "is_via_distributor": False,
-        "distributor_name": None,
-        "gross_revenue": 2828272,
-        "cogs_rate": 0.49,
-        "deductions_rate": 0.042,
-        "deduction_breakdown": {
-            "otif_penalties": 0.012,
-            "shortage_claims": 0.018,
-            "pricing_chargebacks": 0.012,
-        },
-        "trade_spend_rate": 0.120,
-        "trade_spend_breakdown": {
-            "slotting_amortized": 0.025,
-            "promo_mcb": 0.060,
-            "cooperative_advertising": 0.035,
-        },
-        "payment_terms_days": 30,
-        "cost_of_capital": 0.12,
-        "labor_hours_compliance": 200,
-        "labor_hours_disputes": 443,
-        "labor_rate": 35.0,
-        "returns_rate": 0.015,
-        "freight_differential_rate": 0.012,
-        "pallet_surcharge_rate": 0.002,
-        "moq_penalty_rate": 0.001,
-        # KeHE margin: 8% on goods flowing through their network to regional accounts.
-        "distributor_margin_rate": 0.08,
-        "growth_rate_annual": 0.07,
-        "lever_ranges": {
-            "trade_spend_rate": {"min": 0.07, "max": 0.18, "current": 0.120},
-            "deductions_rate": {"min": 0.02, "max": 0.08, "current": 0.042},
-            "payment_terms_days": {"min": 15, "max": 45, "current": 30},
-            "returns_rate": {"min": 0.008, "max": 0.025, "current": 0.015},
-            "logistics_rate": {"min": 0.008, "max": 0.030, "current": 0.015},
-        },
-    },
-    {
         "retailer_id": "sprouts",
         "name": "Sprouts",
         "channel_type": "retailer",
-        "is_via_distributor": False,
-        "distributor_name": None,
+        "is_via_distributor": True,
+        "distributor_name": "KeHE",
         "gross_revenue": 2636249,
         # Sprouts' natural/specialty positioning allows favorable wholesale pricing.
         "cogs_rate": 0.47,
@@ -270,7 +230,8 @@ RETAILERS = [
         "freight_differential_rate": 0.018,
         "pallet_surcharge_rate": 0.003,
         "moq_penalty_rate": 0.001,
-        "distributor_margin_rate": 0.0,
+        # KeHE distributor margin folded into the cost stack: 8% of gross revenue.
+        "distributor_margin_rate": 0.08,
         "growth_rate_annual": 0.12,
         "lever_ranges": {
             "trade_spend_rate": {"min": 0.06, "max": 0.16, "current": 0.100},
@@ -326,8 +287,8 @@ RETAILERS = [
         "retailer_id": "regional_group",
         "name": "Regional Group",
         "channel_type": "retailer",
-        "is_via_distributor": False,
-        "distributor_name": None,
+        "is_via_distributor": True,
+        "distributor_name": "KeHE",
         "gross_revenue": 2049027,
         "cogs_rate": 0.50,
         "deductions_rate": 0.073,
@@ -352,7 +313,8 @@ RETAILERS = [
         "freight_differential_rate": 0.025,
         "pallet_surcharge_rate": 0.004,
         "moq_penalty_rate": 0.001,
-        "distributor_margin_rate": 0.0,
+        # KeHE distributor margin folded into the cost stack: 8% of gross revenue.
+        "distributor_margin_rate": 0.08,
         "growth_rate_annual": 0.05,
         "lever_ranges": {
             "trade_spend_rate": {"min": 0.07, "max": 0.20, "current": 0.120},

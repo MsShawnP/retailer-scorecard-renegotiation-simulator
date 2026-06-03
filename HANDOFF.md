@@ -109,3 +109,15 @@ before building.
 **Next:** Fix KeHE data error FIRST — KeHE is a distributor, not a retailer. R6 requires distributor costs (UNFI, KeHE) folded into the retailers they serve. KeHE currently appears as its own row in the ranking (7 bars) but should be removed and its margin attributed to the retailers it serves via the existing distributor_margin cost layer. Affects retailers.json, ranking (7→6 bars), and distributor_margin values. Then: push to GitHub, run /ce:review, run /ce:compound.
 
 ---
+
+## 2026-06-03 17:30 — Fixed KeHE data error: distributor removed, margin folded into served retailers
+
+**What changed:** Removed KeHE as a standalone entry in retailers.json. Marked Sprouts and Regional Group as via KeHE (is_via_distributor: true, distributor_margin_rate: 0.08). Ranking dropped from 7 to 6 bars. Updated export script, test fixtures, expected outputs, UI copy, and all 7 affected tests. 93 tests passing.
+
+**Why:** KeHE is a distributor, not a retailer. R6 requires distributor costs folded into the retailers they serve. Having KeHE as its own row double-counted its margin and misrepresented the portfolio.
+
+**State:** All 8 units complete. KeHE fix applied. 93 tests passing (16 Python + 77 TypeScript). Frontend builds clean (276KB JS / 25KB CSS). New inversion story: Walmart #1 gross → #6 contribution (net -$106K), Costco #5 gross → #1 contribution ($729K). FAILURES.md updated. Deployed site at retailer-scorecard.lailarallc.com is stale (pre-fix).
+
+**Next:** Redeploy to Cloudflare Pages, push to GitHub, run /ce:review, run /ce:compound.
+
+---

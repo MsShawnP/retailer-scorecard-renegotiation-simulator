@@ -76,14 +76,14 @@ def test_engine_importable():
 
 # ── Test 1: happy path — correct 7-retailer ranked list ────────────────────
 
-def test_calculate_contributions_returns_all_seven_retailers():
-    """calculate_contributions() returns one result per retailer, all 7 present."""
+def test_calculate_contributions_returns_all_six_retailers():
+    """calculate_contributions() returns one result per retailer, all 6 present."""
     from engine.cost_model import calculate_contributions
 
     retailers = _all_inputs()
     results = calculate_contributions(retailers)
 
-    assert len(results) == 7
+    assert len(results) == 6
     result_ids = {r.retailer_id for r in results}
     expected_ids = {p["retailer_id"] for p in _PROFILES}
     assert result_ids == expected_ids
@@ -157,17 +157,17 @@ def test_override_payment_terms_improves_walmart_contribution():
     )
 
 
-# ── Test 6: happy path — gross rank #1 is Walmart, contribution rank #7 ──────
+# ── Test 6: happy path — gross rank #1 is Walmart, contribution rank #6 ──────
 
-def test_walmart_is_rank_1_by_gross_and_rank_7_by_contribution():
-    """Walmart is the largest by gross revenue (#1) but worst by true contribution (#7)."""
+def test_walmart_is_rank_1_by_gross_and_rank_6_by_contribution():
+    """Walmart is the largest by gross revenue (#1) but worst by true contribution (#6)."""
     from engine.cost_model import calculate_contributions
 
     results = calculate_contributions(_all_inputs())
     walmart = next(r for r in results if r.retailer_id == "walmart")
     assert walmart.rank_by_gross == 1, f"Expected Walmart rank_by_gross=1, got {walmart.rank_by_gross}"
-    assert walmart.rank_by_contribution == 7, (
-        f"Expected Walmart rank_by_contribution=7, got {walmart.rank_by_contribution}"
+    assert walmart.rank_by_contribution == 6, (
+        f"Expected Walmart rank_by_contribution=6, got {walmart.rank_by_contribution}"
     )
 
 

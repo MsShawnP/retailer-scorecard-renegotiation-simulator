@@ -15,7 +15,7 @@
       "true_contribution": -106373.83,
       "contribution_margin_rate": -0.0294,
       "rank_by_gross": 1,
-      "rank_by_contribution": 7
+      "rank_by_contribution": 6
     }
   },
   {
@@ -34,7 +34,7 @@
       "true_contribution": 327652.56,
       "contribution_margin_rate": 0.0936,
       "rank_by_gross": 2,
-      "rank_by_contribution": 6
+      "rank_by_contribution": 4
     }
   },
   {
@@ -53,25 +53,6 @@
       "true_contribution": 519442.59,
       "contribution_margin_rate": 0.1582,
       "rank_by_gross": 3,
-      "rank_by_contribution": 4
-    }
-  },
-  {
-    "retailer_id": "kehe",
-    "gross_revenue": 2828272,
-    "expected": {
-      "gross_margin": 1442418.72,
-      "deductions": 118787.42,
-      "trade_spend": 339392.64,
-      "working_capital_drag": 27895.29,
-      "labor_overhead": 22505.0,
-      "swell_returns": 42424.08,
-      "logistics_variance": 42424.08,
-      "distributor_margin": 226261.76,
-      "total_cost_layers": 819690.27,
-      "true_contribution": 622728.45,
-      "contribution_margin_rate": 0.2202,
-      "rank_by_gross": 4,
       "rank_by_contribution": 3
     }
   },
@@ -86,12 +67,12 @@
       "labor_overhead": 72065.0,
       "swell_returns": 26362.49,
       "logistics_variance": 57997.48,
-      "distributor_margin": 0.0,
-      "total_cost_layers": 662223.65,
-      "true_contribution": 734988.32,
-      "contribution_margin_rate": 0.2788,
-      "rank_by_gross": 5,
-      "rank_by_contribution": 1
+      "distributor_margin": 210899.92,
+      "total_cost_layers": 873123.57,
+      "true_contribution": 524088.4,
+      "contribution_margin_rate": 0.1988,
+      "rank_by_gross": 4,
+      "rank_by_contribution": 2
     }
   },
   {
@@ -109,8 +90,8 @@
       "total_cost_layers": 401881.31,
       "true_contribution": 729029.35,
       "contribution_margin_rate": 0.3481,
-      "rank_by_gross": 6,
-      "rank_by_contribution": 2
+      "rank_by_gross": 5,
+      "rank_by_contribution": 1
     }
   },
   {
@@ -124,11 +105,11 @@
       "labor_overhead": 53585.0,
       "swell_returns": 30735.4,
       "logistics_variance": 61470.81,
-      "distributor_margin": 0.0,
-      "total_cost_layers": 571567.8,
-      "true_contribution": 452945.7,
-      "contribution_margin_rate": 0.2211,
-      "rank_by_gross": 7,
+      "distributor_margin": 163922.16,
+      "total_cost_layers": 735489.96,
+      "true_contribution": 289023.54,
+      "contribution_margin_rate": 0.1411,
+      "rank_by_gross": 6,
       "rank_by_contribution": 5
     }
   }
