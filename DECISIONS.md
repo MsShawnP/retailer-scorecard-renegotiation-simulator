@@ -134,6 +134,17 @@ Each entry:
 - **Do not:** Use arbitrary colors, Google Fonts CDN, hover tooltips,
   gradients, 3D effects, or rounded corners beyond 2px border-radius
 
+### 2026-06-03 — Ledger coloring for all monetary values
+- **Why:** Real ledger convention — positive amounts in green (HK-25),
+  negative in red (Tokyo-40). Makes sign immediately visible without
+  reading the minus sign. Applies to ranking values, comparison tables,
+  dark card breakdowns, contribution summaries, and net impact callouts.
+  Utility classes `val-pos` / `val-neg` in App.css for reuse.
+- **Scope:** global — all components that display dollar amounts
+- **Do not:** Color non-monetary numbers (retailer counts, percentages
+  that are input parameters like lever rates). Only apply to
+  dollar-denominated results.
+
 ---
 
 ## Output Formats

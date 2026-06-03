@@ -102,9 +102,9 @@ before building.
 
 **Started from:** U1–U7 done, U8 (design polish + deployment) remaining.
 
-**Did:** CSS token audit (pass), fixed 4 gaps (ranking card mobile overflow, trajectory footnote, simulator footer, print styles for interactive controls), visual verification at desktop + mobile across all views, deployed to Cloudflare Pages, configured custom domain retailer-scorecard.lailarallc.com, cleaned garbled font artifacts. Marked all tasks and definition-of-done items complete.
+**Did:** CSS token audit (pass), fixed 4 gaps (ranking card mobile overflow, trajectory footnote, simulator footer, print styles for interactive controls), visual verification at desktop + mobile across all views, deployed to Cloudflare Pages, configured custom domain retailer-scorecard.lailarallc.com, cleaned garbled font artifacts. Marked all tasks and definition-of-done items complete. Added ledger coloring (green positive, red negative) to ranking bar values and comparison table. Redeployed.
 
-**State:** All 8 units done. All 9 definition-of-done items checked. Live at https://retailer-scorecard.lailarallc.com. 81 tests passing. 275KB JS / 25KB CSS. Working tree clean. 10 commits ahead of origin.
+**State:** All 8 units done. All 9 definition-of-done items checked. Live at https://retailer-scorecard.lailarallc.com. 81 tests passing. 276KB JS / 25KB CSS. Working tree clean. Pushed to GitHub.
 
 **Next:** Fix KeHE data error FIRST — KeHE is a distributor, not a retailer. R6 requires distributor costs (UNFI, KeHE) folded into the retailers they serve. KeHE currently appears as its own row in the ranking (7 bars) but should be removed and its margin attributed to the retailers it serves via the existing distributor_margin cost layer. Affects retailers.json, ranking (7→6 bars), and distributor_margin values. Then: push to GitHub, run /ce:review, run /ce:compound.
 
