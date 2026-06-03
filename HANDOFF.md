@@ -61,3 +61,15 @@ before building.
 **Next:** Run /ce:work to start implementation, beginning with U1 (Cinderhaven schema audit + data enrichment).
 
 ---
+
+## 2026-06-03 15:25 — Session wrap: P1 findings resolved, ready to build
+
+**Started from:** Phase 1 complete, 3 P1 doc review findings blocking /ce:work.
+
+**Did:** Resolved all 3 P1s: D3 animation → CSS transitions (no DOM conflict), payment_terms_days → corrected to "missing" in R18, R9 flip-point → per-lever break-even markers + compound summary card. Updated plan, requirements, and DECISIONS.md. All planning gates now complete.
+
+**State:** All planning docs internally consistent. No code written. 8 implementation units across 3 phases ready to start.
+
+**Next:** Fresh session → /ce:work beginning with U1 (Cinderhaven schema audit + data enrichment).
+
+---
