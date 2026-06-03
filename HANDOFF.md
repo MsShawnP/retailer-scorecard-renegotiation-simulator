@@ -121,3 +121,15 @@ before building.
 **Next:** Redeploy to Cloudflare Pages, push to GitHub, run /ce:review, run /ce:compound.
 
 ---
+
+## 2026-06-03 17:58 — Session wrap: KeHE fix + redeploy
+
+**Started from:** All 8 units shipped. KeHE data error flagged — distributor incorrectly modeled as standalone retailer (7 bars instead of 6).
+
+**Did:** Removed KeHE, folded 8% distributor margin into Sprouts and Regional Group. Updated export script, data files, 7 tests, UI copy. Redeployed to Cloudflare Pages. Restored custom domain after clearing an orphaned Workers DNS record that blocked CNAME creation.
+
+**State:** 6 retailers, 93 tests passing, deployed to retailer-scorecard.pages.dev. Custom domain retailer-scorecard.lailarallc.com CNAME verified, SSL pending auto-provision. API token cfut_hfSG... exposed in session — needs rotation.
+
+**Next:** Push to GitHub. Rotate exposed Cloudflare API token. Run /ce:review, then /ce:compound.
+
+---

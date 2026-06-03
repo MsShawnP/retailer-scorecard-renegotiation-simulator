@@ -53,3 +53,15 @@ failed and may have its own entry below]
 **Status:** Resolved — 2026-06-03.
 
 **Tags:** data-model, distributor, kehe, R6, retailers-json, subagent-error
+
+### 2026-06-03 — Orphaned Workers DNS record blocked Cloudflare Pages custom domain
+
+**Attempted:** Added custom domain `retailer-scorecard.lailarallc.com` to a new Cloudflare Pages project after the old project had been deleted. Expected Pages to auto-configure DNS for a zone in the same account.
+
+**Why it didn't work:** Deleting a Cloudflare Pages project does NOT clean up the underlying Worker script or its custom domain bindings. The old Worker `retailer-scorecard-renegotiation-simulator` still existed with a custom domain route, which held a read-only AAAA record (`100::`) on the hostname. This record blocked CNAME creation (error 81062) and couldn't be deleted via DNS API (error 1043, read-only). The wrangler OAuth token's fixed scopes don't include DNS write, so multiple approaches failed. `wrangler login` also timed out twice when run in background.
+
+**What we tried instead:** Traced the `origin_worker_id` from the DNS record metadata to the Workers Domains API (`/accounts/{id}/workers/domains`). Found the orphaned custom domain binding. Deleted it via Workers Domains API, which released the DNS lock. Then created the CNAME with a separate API token that had DNS edit scope, and re-added the Pages custom domain.
+
+**Status:** Resolved — 2026-06-03. Key lesson: when a Pages project is deleted, check Workers scripts and Workers Domains for orphaned bindings before attempting custom domain setup on a new project.
+
+**Tags:** cloudflare, pages, workers, dns, custom-domain, orphaned-record, deployment
