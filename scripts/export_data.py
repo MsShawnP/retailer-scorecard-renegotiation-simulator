@@ -25,7 +25,14 @@ With live Postgres (flyctl proxy must be running on localhost:5432):
 
 import json
 import os
+import sys
 from pathlib import Path
+
+# Ensure the project root is on sys.path so `engine` is importable.
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
+from engine.cost_model import calculate_contributions
+from engine.types import RetailerInput
 
 try:
     import psycopg2
@@ -329,52 +336,33 @@ RETAILERS = [
 
 def compute_contributions(retailers):
     """
-    Compute true contribution for each retailer.
+    Compute true contribution for each retailer using the engine.
     Returns a list of dicts with derived financial metrics added.
     Used for verification and for generating the fixture file.
     """
+    inputs = [RetailerInput.from_dict(r) for r in retailers]
+    engine_results = calculate_contributions(inputs)
+    result_map = {rc.retailer_id: rc for rc in engine_results}
+
     results = []
     for r in retailers:
-        gr = r["gross_revenue"]
-        gross_margin = gr * (1 - r["cogs_rate"])
-        deductions = gr * r["deductions_rate"]
-        trade_spend = gr * r["trade_spend_rate"]
-        working_capital = (r["payment_terms_days"] / 365) * gr * r["cost_of_capital"]
-        labor = (r["labor_hours_compliance"] + r["labor_hours_disputes"]) * r["labor_rate"]
-        swell_returns = gr * r["returns_rate"]
-        logistics_rate = (
-            r["freight_differential_rate"]
-            + r["pallet_surcharge_rate"]
-            + r["moq_penalty_rate"]
-        )
-        logistics = gr * logistics_rate
-        distributor_margin = gr * r["distributor_margin_rate"]
-
-        total_cost_layers = (
-            deductions
-            + trade_spend
-            + working_capital
-            + labor
-            + swell_returns
-            + logistics
-            + distributor_margin
-        )
-        true_contribution = gross_margin - total_cost_layers
+        rc = result_map[r["retailer_id"]]
+        bd = rc.cost_breakdown
 
         results.append({
             **r,
             "_computed": {
-                "gross_margin": round(gross_margin, 2),
-                "deductions": round(deductions, 2),
-                "trade_spend": round(trade_spend, 2),
-                "working_capital": round(working_capital, 2),
-                "labor": round(labor, 2),
-                "swell_returns": round(swell_returns, 2),
-                "logistics": round(logistics, 2),
-                "distributor_margin": round(distributor_margin, 2),
-                "total_cost_layers": round(total_cost_layers, 2),
-                "true_contribution": round(true_contribution, 2),
-                "contribution_margin_rate": round(true_contribution / gr, 4),
+                "gross_margin": round(bd.gross_margin, 2),
+                "deductions": round(bd.deductions, 2),
+                "trade_spend": round(bd.trade_spend, 2),
+                "working_capital": round(bd.working_capital_drag, 2),
+                "labor": round(bd.labor_overhead, 2),
+                "swell_returns": round(bd.swell_returns, 2),
+                "logistics": round(bd.logistics_variance, 2),
+                "distributor_margin": round(bd.distributor_margin, 2),
+                "total_cost_layers": round(bd.total_cost_layers, 2),
+                "true_contribution": round(rc.true_contribution, 2),
+                "contribution_margin_rate": round(rc.contribution_margin_rate, 4),
             },
         })
     return results
@@ -391,7 +379,8 @@ def _pg_connect():
         dsn = f"postgresql://postgres:{pw}@localhost:5432/cinderhaven"
     try:
         return psycopg2.connect(dsn)
-    except Exception:
+    except Exception as e:
+        print(f'Postgres connection failed: {e}', file=sys.stderr)
         return None
 
 
@@ -428,7 +417,8 @@ def fetch_live_revenues():
             """)
             rows = cur.fetchall()
         return {r["retailer_id"]: round(r["ttm_revenue"], 2) for r in rows}
-    except Exception:
+    except Exception as e:
+        print(f'fetch_live_revenues failed: {e}', file=sys.stderr)
         return None
     finally:
         conn.close()

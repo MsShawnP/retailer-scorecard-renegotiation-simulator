@@ -109,21 +109,27 @@ export function findBreakEvenValue(
   const atMin = evalAt(leverRange.min);
   const atMax = evalAt(leverRange.max);
 
-  // Need sign change across the range
-  if (atMin >= 0 || atMax >= 0) {
-    // Already positive at min, or never becomes positive at max
-    if (atMin >= 0) return leverRange.min;
-    return null;
-  }
+  // Already profitable across the entire range — return minimum value
+  if (atMin >= 0 && atMax >= 0) return leverRange.min;
+  // Never reaches break-even across the range — no sign change
+  if (atMin < 0 && atMax < 0) return null;
 
-  // Bisection — lever decreases cost, so we expect contribution to increase as lever decreases
+  // Sign change exists — bisect (matches Python sign-comparison logic)
   let lo = leverRange.min;
   let hi = leverRange.max;
+  let tcLo = atMin;
   for (let i = 0; i < 64; i++) {
     const mid = (lo + hi) / 2;
     if (Math.abs(hi - lo) < 1e-9) break;
-    if (evalAt(mid) >= 0) hi = mid;
-    else lo = mid;
+    const tcMid = evalAt(mid);
+    if (Math.abs(tcMid) < 1e-6) return mid;
+    // Keep the half that contains the zero crossing
+    if ((tcLo < 0) === (tcMid < 0)) {
+      lo = mid;
+      tcLo = tcMid;
+    } else {
+      hi = mid;
+    }
   }
   const result = (lo + hi) / 2;
   // Only return if within range
@@ -139,7 +145,7 @@ export function projectTrajectory(
 ): number[] {
   const monthlyGrowth = Math.pow(1 + r.growth_rate_annual, 1 / 12);
   return Array.from({ length: months }, (_, i) => {
-    const growthFactor = Math.pow(monthlyGrowth, i);
+    const growthFactor = Math.pow(monthlyGrowth, i + 1);
     const scaled: Retailer = { ...r, gross_revenue: r.gross_revenue * growthFactor };
     return calcTrueContribution(scaled, overrides);
   });

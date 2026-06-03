@@ -1,9 +1,11 @@
 import type { Retailer, LeverOverrides } from '../types';
 import { calcTrueContribution, findBreakEvenValue } from '../calculations';
+import { NEGOTIABILITY_TAGS } from '../constants';
 
 export interface LeverSpec {
   lever: keyof LeverOverrides;
   label: string;
+  shortLabel: string;
   negotiabilityTag: string;
   unit: 'percent' | 'days';
   range: { min: number; max: number; current: number };
@@ -25,14 +27,7 @@ export interface CompoundBreakEven {
 // ── Negotiability mapping ─────────────────────────────────────────────────────
 
 function negotiabilityForLever(lever: keyof LeverOverrides): string {
-  const MAP: Record<keyof LeverOverrides, string> = {
-    trade_spend_rate: 'Often',
-    deductions_rate: 'Partly',
-    payment_terms_days: 'Sometimes',
-    returns_rate: 'Rarely',
-    logistics_rate: 'Sometimes',
-  };
-  return MAP[lever];
+  return NEGOTIABILITY_TAGS[lever];
 }
 
 // ── buildLeverSpecs ───────────────────────────────────────────────────────────
@@ -47,21 +42,23 @@ export function buildLeverSpecs(
   const levers: Array<{
     lever: keyof LeverOverrides;
     label: string;
+    shortLabel: string;
     unit: 'percent' | 'days';
   }> = [
-    { lever: 'trade_spend_rate', label: 'Trade Spend', unit: 'percent' },
-    { lever: 'deductions_rate', label: 'Deductions Rate', unit: 'percent' },
-    { lever: 'payment_terms_days', label: 'Payment Terms', unit: 'days' },
-    { lever: 'returns_rate', label: 'Returns Rate', unit: 'percent' },
-    { lever: 'logistics_rate', label: 'Logistics Rate', unit: 'percent' },
+    { lever: 'trade_spend_rate', label: 'Trade Spend', shortLabel: 'Trade Spend', unit: 'percent' },
+    { lever: 'deductions_rate', label: 'Deductions Rate', shortLabel: 'Deductions', unit: 'percent' },
+    { lever: 'payment_terms_days', label: 'Payment Terms', shortLabel: 'Terms', unit: 'days' },
+    { lever: 'returns_rate', label: 'Returns Rate', shortLabel: 'Returns', unit: 'percent' },
+    { lever: 'logistics_rate', label: 'Logistics Rate', shortLabel: 'Logistics', unit: 'percent' },
   ];
 
-  return levers.map(({ lever, label, unit }) => {
+  return levers.map(({ lever, label, shortLabel, unit }) => {
     const range = retailer.lever_ranges[lever];
     const breakEvenValue = findBreakEvenValue(retailer, lever, currentOverrides, range);
     return {
       lever,
       label,
+      shortLabel,
       negotiabilityTag: negotiabilityForLever(lever),
       unit,
       range,
@@ -78,18 +75,15 @@ export function formatLeverValue(value: number, lever: keyof LeverOverrides): st
   return `${(value * 100).toFixed(1)}%`;
 }
 
-// ── getLeverShortLabel ────────────────────────────────────────────────────────
+// ── Lever short labels (single source of truth) ─────────────────────────────
 
-export function getLeverShortLabel(lever: keyof LeverOverrides): string {
-  const LABELS: Record<keyof LeverOverrides, string> = {
-    trade_spend_rate: 'Trade Spend',
-    deductions_rate: 'Deductions',
-    payment_terms_days: 'Terms',
-    returns_rate: 'Returns',
-    logistics_rate: 'Logistics',
-  };
-  return LABELS[lever];
-}
+const LEVER_SHORT_LABELS: Record<keyof LeverOverrides, string> = {
+  trade_spend_rate: 'Trade Spend',
+  deductions_rate: 'Deductions',
+  payment_terms_days: 'Terms',
+  returns_rate: 'Returns',
+  logistics_rate: 'Logistics',
+};
 
 // ── formatLeverStep ───────────────────────────────────────────────────────────
 
@@ -101,7 +95,7 @@ function formatLeverStep(step: {
   if (step.lever === 'payment_terms_days') {
     return `Terms ${Math.round(step.fromValue)}d → ${Math.round(step.toValue)}d`;
   }
-  return `${getLeverShortLabel(step.lever)} ${(step.fromValue * 100).toFixed(1)}% → ${(step.toValue * 100).toFixed(1)}%`;
+  return `${LEVER_SHORT_LABELS[step.lever]} ${(step.fromValue * 100).toFixed(1)}% → ${(step.toValue * 100).toFixed(1)}%`;
 }
 
 // ── computeCompoundBreakEven ──────────────────────────────────────────────────
@@ -131,7 +125,7 @@ export function computeCompoundBreakEven(
     'returns_rate',
   ];
 
-  const accumulatedOverrides: LeverOverrides = { ...currentOverrides };
+  let accumulatedOverrides: LeverOverrides = { ...currentOverrides };
   const steps: CompoundBreakEven['steps'] = [];
 
   for (const lever of PRIORITY_ORDER) {
@@ -139,9 +133,7 @@ export function computeCompoundBreakEven(
     const bev = findBreakEvenValue(retailer, lever, accumulatedOverrides, range);
 
     if (bev !== null) {
-      const fromValue =
-        (accumulatedOverrides[lever] as number | undefined) ??
-        range.current;
+      const fromValue = accumulatedOverrides[lever] ?? range.current;
 
       steps.push({
         lever,
@@ -149,7 +141,7 @@ export function computeCompoundBreakEven(
         toValue: bev,
         label: negotiabilityForLever(lever),
       });
-      (accumulatedOverrides as Record<string, number>)[lever] = bev;
+      accumulatedOverrides = { ...accumulatedOverrides, [lever]: bev };
 
       const newContrib = calcTrueContribution(retailer, accumulatedOverrides);
       if (newContrib >= 0) {
@@ -160,6 +152,17 @@ export function computeCompoundBreakEven(
           explanation: `${labelStr} = break-even`,
         };
       }
+    } else {
+      // Lever alone can't reach break-even — apply best-case value so
+      // subsequent levers benefit from the maximum improvement this lever offers
+      const fromValue = accumulatedOverrides[lever] ?? range.current;
+      accumulatedOverrides = { ...accumulatedOverrides, [lever]: range.min };
+      steps.push({
+        lever,
+        fromValue,
+        toValue: range.min,
+        label: negotiabilityForLever(lever),
+      });
     }
   }
 

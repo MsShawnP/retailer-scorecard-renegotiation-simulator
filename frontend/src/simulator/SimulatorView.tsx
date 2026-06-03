@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import type { Retailer, LeverOverrides } from '../types';
 import { calcTrueContribution, projectTrajectory } from '../calculations';
 import { formatDollars, formatPercent, NEGOTIABILITY_COLORS } from '../constants';
+import { useAnimatedNumber } from '../hooks/useAnimatedNumber';
 import {
   buildLeverSpecs,
   computeCompoundBreakEven,
@@ -54,6 +55,9 @@ export default function SimulatorView({
     [retailer, overrides],
   );
 
+  const animatedBaseline = useAnimatedNumber(baselineContrib);
+  const animatedAdjusted = useAnimatedNumber(adjustedContrib);
+
   const delta = adjustedContrib - baselineContrib;
   const hasOverrides = Object.keys(overrides).length > 0;
 
@@ -103,7 +107,7 @@ export default function SimulatorView({
         <div className="sim-summary-item">
           <span className="sim-summary-label">Baseline contribution</span>
           <span className={`sim-summary-value${baselineContrib >= 0 ? ' positive' : ' negative'}`}>
-            {formatDollars(baselineContrib)}
+            {formatDollars(animatedBaseline)}
           </span>
           <span className="sim-summary-delta">
             {formatPercent(baselineContrib / retailer.gross_revenue)} margin
@@ -113,7 +117,7 @@ export default function SimulatorView({
         <div className="sim-summary-item">
           <span className="sim-summary-label">Adjusted contribution</span>
           <span className={`sim-summary-value${adjustedContrib >= 0 ? ' positive' : ' negative'}`}>
-            {formatDollars(adjustedContrib)}
+            {formatDollars(animatedAdjusted)}
           </span>
           {hasOverrides && (
             <span className={`sim-summary-delta${delta >= 0 ? ' improved' : ' worsened'}`}>
@@ -131,7 +135,7 @@ export default function SimulatorView({
             key={spec.lever}
             spec={spec}
             currentValue={
-              (overrides[spec.lever] as number | undefined) ?? spec.range.current
+              overrides[spec.lever] ?? spec.range.current
             }
             isModified={spec.lever in overrides}
             onChange={(v) => handleLeverChange(spec.lever, v)}
@@ -407,6 +411,54 @@ function TrajectoryChart({
           />
         )}
 
+        {/* Key data point labels (design system: every data point needs a text label) */}
+        {/* First point (M1) */}
+        <text
+          x={scaleX(0)}
+          y={scaleY(adjustedData[0]) - 8}
+          textAnchor="middle"
+          className="traj-point-label"
+        >
+          {formatDollars(adjustedData[0])}
+        </text>
+        {/* Last point (M24) */}
+        <text
+          x={scaleX(23)}
+          y={scaleY(adjustedData[23]) - 8}
+          textAnchor="middle"
+          className="traj-point-label"
+        >
+          {formatDollars(adjustedData[23])}
+        </text>
+        {/* Baseline first and last endpoints */}
+        <text
+          x={scaleX(0)}
+          y={scaleY(baselineData[0]) + 16}
+          textAnchor="middle"
+          className="traj-point-label traj-point-label-baseline"
+        >
+          {formatDollars(baselineData[0])}
+        </text>
+        <text
+          x={scaleX(23)}
+          y={scaleY(baselineData[23]) + 16}
+          textAnchor="middle"
+          className="traj-point-label traj-point-label-baseline"
+        >
+          {formatDollars(baselineData[23])}
+        </text>
+        {/* Zero-crossing label */}
+        {zeroCrossover !== null && (
+          <text
+            x={scaleX(zeroCrossover.x)}
+            y={scaleY(0) - 10}
+            textAnchor="middle"
+            className="traj-point-label traj-point-label-crossover"
+          >
+            $0 at M{Math.round(zeroCrossover.x) + 1}
+          </text>
+        )}
+
         {/* Y-axis labels */}
         {yTicks.map((tick) => (
           <text
@@ -430,7 +482,7 @@ function TrajectoryChart({
             textAnchor="middle"
             className="traj-axis-label"
           >
-            {month === 0 ? 'Now' : `M${month + 1}`}
+            {`M${month + 1}`}
           </text>
         ))}
       </svg>
@@ -474,6 +526,7 @@ function TrajectoryChart({
 
 function computeYTicks(min: number, max: number, count: number): number[] {
   const range = max - min;
+  if (range <= 0 || !isFinite(range / count)) return [min];
   const rawStep = range / count;
   const magnitude = Math.pow(10, Math.floor(Math.log10(Math.abs(rawStep))));
   const step = Math.ceil(rawStep / magnitude) * magnitude;

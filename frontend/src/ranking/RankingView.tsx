@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { Retailer, LeverOverrides } from '../types';
 import { computeRankingLayout, type RankingMode, getBarX } from './rankingDomain';
-import { calculateContributions } from '../calculations';
 import { formatDollars, formatPercent } from '../constants';
 import './RankingView.css';
 
@@ -97,8 +96,7 @@ export default function RankingView({
                   y={0}
                   width={Math.max(bar.bar_width, 1)}
                   height={BAR_HEIGHT}
-                  fill={bar.bar_color}
-                  opacity={dimmed ? 0.2 : 1}
+                  style={{ fill: bar.bar_color, opacity: dimmed ? 0.2 : 1 }}
                   rx={1}
                   className="ranking-bar"
                 />
@@ -141,8 +139,6 @@ export default function RankingView({
         {pinnedBar && (
           <CostBreakdownCard
             bar={pinnedBar}
-            retailers={retailers}
-            overrides={overrides}
             onDismiss={() => setPinnedId(null)}
           />
         )}
@@ -164,18 +160,11 @@ type PinnedBar = ReturnType<typeof computeRankingLayout>['bars'][0];
 
 interface CostCardProps {
   bar: PinnedBar;
-  retailers: Retailer[];
-  overrides?: Record<string, LeverOverrides>;
   onDismiss: () => void;
 }
 
-function CostBreakdownCard({ bar, retailers, overrides, onDismiss }: CostCardProps) {
-  const retailer = retailers.find((r) => r.retailer_id === bar.retailer_id);
-  if (!retailer) return null;
-
-  const contributions = calculateContributions([retailer], overrides);
-  const contrib = contributions[0];
-  const bd = contrib.cost_breakdown;
+function CostBreakdownCard({ bar, onDismiss }: CostCardProps) {
+  const bd = bar.cost_breakdown;
 
   const layers: [string, number][] = [
     ['Gross margin', bd.gross_margin],
@@ -222,10 +211,10 @@ function CostBreakdownCard({ bar, retailers, overrides, onDismiss }: CostCardPro
           <span className="ranking-card-label">True contribution</span>
           <span
             className={`ranking-card-value ${
-              contrib.true_contribution < 0 ? 'neg' : 'pos'
+              bar.true_contribution < 0 ? 'neg' : 'pos'
             }`}
           >
-            {formatDollars(contrib.true_contribution)}
+            {formatDollars(bar.true_contribution)}
           </span>
         </div>
       </div>

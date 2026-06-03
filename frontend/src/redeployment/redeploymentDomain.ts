@@ -82,33 +82,48 @@ export function computeRedeployment(
   overridesByRetailerId: Record<string, LeverOverrides>,
   absorptionRates: AbsorptionRates,
 ): RedeploymentResult {
-  const remaining = allRetailers.filter((r) => !walkedAwayIds.has(r.retailer_id));
+  // Single calculateContributions call for ALL retailers (gives the "before" state)
+  const allContribs = calculateContributions(allRetailers, overridesByRetailerId);
+
+  // Partition results into remaining and walked-away
+  const remainingContribs = allContribs.filter((r) => !walkedAwayIds.has(r.retailer_id));
+  const walkedAwayContribs = allContribs.filter((r) => walkedAwayIds.has(r.retailer_id));
   const walkedAway = allRetailers.filter((r) => walkedAwayIds.has(r.retailer_id));
 
-  const before = computePortfolioSummary(allRetailers, overridesByRetailerId);
+  // Before summary: derived from the full set
+  const before: PortfolioSummary = {
+    total_revenue: allContribs.reduce((s, r) => s + r.gross_revenue, 0),
+    total_contribution: allContribs.reduce((s, r) => s + r.true_contribution, 0),
+    total_working_capital: allContribs.reduce(
+      (s, r) => s + r.cost_breakdown.working_capital_drag, 0,
+    ),
+    retailer_count: allRetailers.length,
+  };
+
+  // Freed resources from walked-away retailers (still uses per-retailer breakdown)
   const freed = computeFreedResources(walkedAway, overridesByRetailerId);
 
-  // Redeployment: freed revenue × each remaining retailer's absorption × their contribution rate
-  const remainingContribs = remaining.length > 0
-    ? calculateContributions(remaining, overridesByRetailerId)
-    : [];
-
+  // Apply absorption math to remaining retailers
   let redeployedContribution = 0;
   for (const r of remainingContribs) {
     const absorption = absorptionRates[r.retailer_id] ?? 0;
-    // Freed revenue absorbed by this retailer at its contribution margin rate
     redeployedContribution += freed.revenue * absorption * r.contribution_margin_rate;
   }
 
-  // Total absorption fraction across all remaining retailers
   const totalAbsorptionFraction = Object.values(absorptionRates).reduce((s, a) => s + a, 0);
 
-  const remainingSummary = computePortfolioSummary(remaining, overridesByRetailerId);
+  // After summary: derived from partitioned remaining set
+  const remainingRevenue = remainingContribs.reduce((s, r) => s + r.gross_revenue, 0);
+  const remainingContribution = remainingContribs.reduce((s, r) => s + r.true_contribution, 0);
+  const remainingWC = remainingContribs.reduce(
+    (s, r) => s + r.cost_breakdown.working_capital_drag, 0,
+  );
+
   const after: PortfolioSummary = {
-    total_revenue: remainingSummary.total_revenue + freed.revenue * totalAbsorptionFraction,
-    total_contribution: remainingSummary.total_contribution + redeployedContribution,
-    total_working_capital: remainingSummary.total_working_capital,
-    retailer_count: remaining.length,
+    total_revenue: remainingRevenue + freed.revenue * totalAbsorptionFraction,
+    total_contribution: remainingContribution + redeployedContribution,
+    total_working_capital: remainingWC,
+    retailer_count: remainingContribs.length,
   };
 
   return {

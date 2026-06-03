@@ -20,36 +20,20 @@ from engine.types import RetailerInput
 
 TOLERANCE = 0.01  # $0.01 tolerance for floating-point drift
 
+ROOT = Path(__file__).parent.parent
+
 def load_retailers():
-    path = Path("tests/fixtures/retailer_profiles.json")
+    path = ROOT / "tests" / "fixtures" / "retailer_profiles.json"
     with open(path) as f:
         return json.load(f)
 
 def load_expected():
-    path = Path("tests/fixtures/expected_outputs.json")
+    path = ROOT / "tests" / "fixtures" / "expected_outputs.json"
     with open(path) as f:
         return json.load(f)
 
 def retailer_input_from_fixture(r):
-    return RetailerInput(
-        retailer_id=r["retailer_id"],
-        name=r["name"],
-        gross_revenue=r["gross_revenue"],
-        cogs_rate=r["cogs_rate"],
-        deductions_rate=r["deductions_rate"],
-        trade_spend_rate=r["trade_spend_rate"],
-        payment_terms_days=r["payment_terms_days"],
-        cost_of_capital=r["cost_of_capital"],
-        labor_hours_compliance=r["labor_hours_compliance"],
-        labor_hours_disputes=r["labor_hours_disputes"],
-        labor_rate=r["labor_rate"],
-        returns_rate=r["returns_rate"],
-        freight_differential_rate=r["freight_differential_rate"],
-        pallet_surcharge_rate=r["pallet_surcharge_rate"],
-        moq_penalty_rate=r["moq_penalty_rate"],
-        distributor_margin_rate=r["distributor_margin_rate"],
-        growth_rate_annual=r["growth_rate_annual"],
-    )
+    return RetailerInput.from_dict(r)
 
 def main():
     fixtures = load_retailers()

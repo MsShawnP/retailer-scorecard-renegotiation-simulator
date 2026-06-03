@@ -5,7 +5,13 @@ All types use plain dataclasses (stdlib only — no numpy, no pandas).
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import TypedDict
+
+
+class LeverRangeDict(TypedDict):
+    """Typed dict for lever range bounds used by find_break_even_value."""
+    min: float
+    max: float
 
 
 @dataclass
@@ -30,6 +36,29 @@ class RetailerInput:
     distributor_margin_rate: float
     growth_rate_annual: float
 
+    @classmethod
+    def from_dict(cls, data: dict) -> RetailerInput:
+        """Build a RetailerInput from a dict (e.g. fixture or RETAILERS entry)."""
+        return cls(
+            retailer_id=data['retailer_id'],
+            name=data['name'],
+            gross_revenue=data['gross_revenue'],
+            cogs_rate=data['cogs_rate'],
+            deductions_rate=data['deductions_rate'],
+            trade_spend_rate=data['trade_spend_rate'],
+            payment_terms_days=data['payment_terms_days'],
+            cost_of_capital=data['cost_of_capital'],
+            labor_hours_compliance=data['labor_hours_compliance'],
+            labor_hours_disputes=data['labor_hours_disputes'],
+            labor_rate=data['labor_rate'],
+            returns_rate=data['returns_rate'],
+            freight_differential_rate=data['freight_differential_rate'],
+            pallet_surcharge_rate=data['pallet_surcharge_rate'],
+            moq_penalty_rate=data['moq_penalty_rate'],
+            distributor_margin_rate=data['distributor_margin_rate'],
+            growth_rate_annual=data['growth_rate_annual'],
+        )
+
 
 @dataclass
 class LeverOverrides:
@@ -40,11 +69,11 @@ class LeverOverrides:
     (freight_differential_rate + pallet_surcharge_rate + moq_penalty_rate).
     """
 
-    trade_spend_rate: Optional[float] = None
-    deductions_rate: Optional[float] = None
-    payment_terms_days: Optional[int] = None
-    returns_rate: Optional[float] = None
-    logistics_rate: Optional[float] = None  # replaces freight+pallet+moq combined
+    trade_spend_rate: float | None = None
+    deductions_rate: float | None = None
+    payment_terms_days: int | None = None
+    returns_rate: float | None = None
+    logistics_rate: float | None = None  # replaces freight+pallet+moq combined
 
 
 @dataclass

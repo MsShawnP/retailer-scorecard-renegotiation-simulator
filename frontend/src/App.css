@@ -102,6 +102,23 @@
   --card-border: rgba(255, 255, 255, 0.12);
   --card-item-text: #ededed;
 
+  /* ── Chart palette (teal scale mapped to TEAL_SCALE array) ─ */
+  --teal-0: var(--hk-5);
+  --teal-1: var(--hk-15);
+  --teal-2: var(--hk-25);
+  --teal-3: var(--hk-35);
+  --teal-4: var(--hk-45);
+  --teal-5: var(--hk-55);
+  --teal-6: var(--hk-70);
+  --teal-7: var(--hk-85);
+
+  /* ── Negotiability tag colors ────────────────────────────── */
+  --neg-often: var(--hk-25);
+  --neg-partly: var(--navy);
+  --neg-sometimes: var(--sg-20);
+  --neg-rarely: var(--tokyo-40);
+  --neg-internal: var(--text-secondary);
+
   /* ── Typography ──────────────────────────────────────────── */
   --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
   --font-sans: "Source Sans 3", "Source Sans Pro", "Helvetica Neue", Helvetica,
@@ -494,7 +511,7 @@ button:focus-visible {
 
 @media print {
   body {
-    background: var(--canvas);
+    background: #ffffff;
     font-size: 10pt;
   }
 
