@@ -102,7 +102,7 @@ the active plan.
   animated ranking flip, renegotiation simulator with 5 levers +
   trajectory, walk-away + redeployment view, methodology panel. Python
   cost engine importable by Q1. 93 tests. /ce:review complete (29 fixes).
-  /ce:compound remaining.
+  /ce:compound complete — `docs/solutions/architecture-patterns/dual-engine-cross-validation-2026-06-03.md` written.
 - Tag: (pending)
 
 ---
