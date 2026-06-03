@@ -75,6 +75,7 @@ deferred to a polish phase.
 - [x] Build U6: Renegotiation simulator with trajectory
 - [x] Build U7: Walk-away toggle + redeployment view
 - [x] Build U8: Design polish + Cloudflare Pages deployment
+- [x] /ce:review — 10-agent review, 29 fixes applied and redeployed
 
 ## Definition of done for this arc
 
@@ -96,9 +97,13 @@ When an arc completes, archive its goal, completion date, and outcome
 here. Then start a new arc above. Provides continuity without bloating
 the active plan.
 
-### [Date completed] — [Goal]
-- Outcome: [what shipped or what was decided]
-- Tag: [git tag if one was created]
+### 2026-06-03 — Retailer Scorecard & Renegotiation Simulator
+- Outcome: Shipped to retailer-scorecard.lailarallc.com. 6 retailers,
+  animated ranking flip, renegotiation simulator with 5 levers +
+  trajectory, walk-away + redeployment view, methodology panel. Python
+  cost engine importable by Q1. 93 tests. /ce:review complete (29 fixes).
+  /ce:compound remaining.
+- Tag: (pending)
 
 ---
 
