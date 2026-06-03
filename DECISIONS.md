@@ -102,7 +102,21 @@ Each entry:
 - **Do not:** Assume payment_terms_days exists — it must be created
   during the U1 schema audit alongside returns_rate.
 
-[Additional data/schema decisions]
+### 2026-06-03 — Include cogs_rate in True Contribution formula
+- **Why:** The plan formula (`True Contribution = Gross Revenue - [six layers]`)
+  cannot produce a net-negative result — cost layers are percentages of revenue
+  and cannot sum to > 100%. The brief explicitly states the anchor retailer
+  "runs at negative true contribution." Including `cogs_rate` resolves this:
+  `gross_margin = gross_revenue × (1 - cogs_rate)`, then
+  `true_contribution = gross_margin - total_cost_layers`. Walmart at 55% COGS
+  + 28% trade spend + 8.2% deductions produces -$106K. Both the Python engine
+  and TypeScript engine implement this formula, cross-validated via shared
+  fixtures.
+- **Scope:** engine/cost_model.py, frontend/src/calculations.ts, all tests
+  and fixtures, retailers.json (cogs_rate field on every retailer)
+- **Do not:** Remove cogs_rate from the formula or the JSON schema. Do not
+  revert to the plan's simplified formula — it cannot produce the inversion
+  story the project is built around.
 
 ---
 

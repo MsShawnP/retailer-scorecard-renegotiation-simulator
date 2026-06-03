@@ -85,3 +85,15 @@ before building.
 **Next:** New session → U8: run CSS token audit (`grep -r '#[0-9a-fA-F]' frontend/src --include='*.css'`), add responsive breakpoints where missing, confirm `prefers-reduced-motion` is honored, then `wrangler pages deploy` from frontend/dist/.
 
 ---
+
+## 2026-06-03 16:20 — Session wrap: /ce:work U1–U7 complete
+
+**Started from:** All planning gates done, no code. 8 units ready across 3 phases.
+
+**Did:** Built U1–U7 via serial subagents — data pipeline, Python engine, TypeScript engine (cross-validated), ranking chart with animated flip, entry/methodology views, renegotiation simulator with levers + trajectory, redeployment view. 81 tests passing, app builds clean. Two garbled font artifact files left untracked in frontend/public/fonts/ — need `git clean -f` before U8.
+
+**State:** 7/8 units done. 81 tests passing. App builds at 275KB JS / 24KB CSS. cogs_rate is in the model (design divergence from plan formula — see DECISIONS.md candidate). Two harmless untracked artifacts.
+
+**Next:** New session → U8: CSS token audit (`grep -r '#[0-9a-fA-F]' frontend/src --include='*.css'`), responsive 640px breakpoints, `wrangler pages deploy` from frontend/ after clean build, test deployed URL.
+
+---
