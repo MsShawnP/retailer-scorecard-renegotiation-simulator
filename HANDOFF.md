@@ -97,3 +97,15 @@ before building.
 **Next:** New session → U8: CSS token audit (`grep -r '#[0-9a-fA-F]' frontend/src --include='*.css'`), responsive 640px breakpoints, `wrangler pages deploy` from frontend/ after clean build, test deployed URL.
 
 ---
+
+## 2026-06-03 16:45 — Session wrap: U8 complete, arc shipped
+
+**Started from:** U1–U7 done, U8 (design polish + deployment) remaining.
+
+**Did:** CSS token audit (pass), fixed 4 gaps (ranking card mobile overflow, trajectory footnote, simulator footer, print styles for interactive controls), visual verification at desktop + mobile across all views, deployed to Cloudflare Pages, configured custom domain retailer-scorecard.lailarallc.com, cleaned garbled font artifacts. Marked all tasks and definition-of-done items complete.
+
+**State:** All 8 units done. All 9 definition-of-done items checked. Live at https://retailer-scorecard.lailarallc.com. 81 tests passing. 275KB JS / 25KB CSS. Working tree clean. 10 commits ahead of origin.
+
+**Next:** Fix KeHE data error FIRST — KeHE is a distributor, not a retailer. R6 requires distributor costs (UNFI, KeHE) folded into the retailers they serve. KeHE currently appears as its own row in the ranking (7 bars) but should be removed and its margin attributed to the retailers it serves via the existing distributor_margin cost layer. Affects retailers.json, ranking (7→6 bars), and distributor_margin values. Then: push to GitHub, run /ce:review, run /ce:compound.
+
+---
