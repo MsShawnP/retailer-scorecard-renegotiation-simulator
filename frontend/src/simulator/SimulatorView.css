@@ -1,0 +1,491 @@
+/* ── SimulatorView ───────────────────────────────────────────────────────── */
+
+.simulator {
+  margin-top: var(--section-gap);
+}
+
+.simulator-title {
+  font-family: var(--font-serif);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.simulator-subtitle {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+  max-width: 660px;
+}
+
+/* ── Retailer tabs ───────────────────────────────────────────────────────── */
+
+.simulator-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.simulator-tab {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 6px 14px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 150ms ease-out, color 150ms ease-out, border-color 150ms ease-out;
+  white-space: nowrap;
+}
+
+.simulator-tab:hover {
+  background: var(--info-bg);
+  border-color: var(--navy-light);
+  color: var(--navy);
+}
+
+.simulator-tab.active {
+  background: var(--navy);
+  color: var(--card-text);
+  border-color: var(--navy);
+}
+
+.simulator-tab:focus-visible {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
+}
+
+/* ── Contribution summary ────────────────────────────────────────────────── */
+
+.sim-summary {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 32px;
+  padding: 16px 20px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: var(--canvas);
+}
+
+.sim-summary-item {
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+}
+
+.sim-summary-label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.sim-summary-value {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+.sim-summary-value.positive {
+  color: var(--hk-25);
+}
+
+.sim-summary-value.negative {
+  color: var(--tokyo-40);
+}
+
+.sim-summary-delta {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.sim-summary-delta.improved {
+  color: var(--hk-35);
+}
+
+.sim-summary-delta.worsened {
+  color: var(--tokyo-40);
+}
+
+/* ── Levers section ──────────────────────────────────────────────────────── */
+
+.sim-levers {
+  margin-bottom: 32px;
+}
+
+.sim-levers-heading {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--gridline);
+}
+
+.lever-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 72px;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gridline);
+}
+
+.lever-row:last-child {
+  border-bottom: none;
+}
+
+.lever-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lever-label {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* ── Negotiability badge ─────────────────────────────────────────────────── */
+
+.neg-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  width: fit-content;
+}
+
+.neg-badge-Often {
+  background: var(--pass-bg);
+  color: var(--pass-text);
+}
+
+.neg-badge-Partly {
+  background: var(--info-bg);
+  color: var(--info-text);
+}
+
+.neg-badge-Sometimes {
+  background: var(--warn-bg);
+  color: var(--warn-text);
+}
+
+.neg-badge-Rarely {
+  background: var(--fail-bg);
+  color: var(--fail-text);
+}
+
+/* ── Slider ──────────────────────────────────────────────────────────────── */
+
+.slider-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 28px;
+}
+
+.slider-wrap input[type='range'] {
+  width: 100%;
+  height: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: var(--gridline);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.slider-wrap input[type='range']:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 3px;
+}
+
+.slider-wrap input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--navy);
+  cursor: pointer;
+  transition: background 100ms ease-out;
+}
+
+.slider-wrap input[type='range']::-webkit-slider-thumb:hover {
+  background: var(--navy-hover);
+}
+
+.slider-wrap input[type='range']::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--navy);
+  cursor: pointer;
+  border: none;
+}
+
+/* Break-even tick mark on the slider track */
+.slider-breakeven-tick {
+  position: absolute;
+  width: 2px;
+  height: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--navy);
+  pointer-events: none;
+  opacity: 0.7;
+  border-radius: 1px;
+}
+
+.lever-value {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.lever-value.modified {
+  color: var(--navy);
+}
+
+/* ── Compound break-even card ────────────────────────────────────────────── */
+
+.compound-card {
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 20px 24px;
+  margin-bottom: 32px;
+  background: var(--canvas);
+}
+
+.compound-card.achievable {
+  border-left: 3px solid var(--hk-35);
+}
+
+.compound-card.not-achievable {
+  border-left: 3px solid var(--tokyo-40);
+}
+
+.compound-card-heading {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.compound-card-explanation {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.compound-card.not-achievable .compound-card-explanation {
+  color: var(--tokyo-20);
+}
+
+.compound-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.compound-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.compound-step-badge {
+  display: inline-block;
+  padding: 1px 6px;
+  border-radius: 2px;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.compound-step-arrow {
+  font-family: var(--font-sans);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ── Trajectory chart ────────────────────────────────────────────────────── */
+
+.trajectory-section {
+  margin-bottom: 32px;
+}
+
+.trajectory-heading {
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.trajectory-sub {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+
+.trajectory-chart-wrap {
+  overflow-x: auto;
+}
+
+.trajectory-svg {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+}
+
+.traj-gridline {
+  stroke: var(--gridline);
+  stroke-width: 1;
+}
+
+.traj-zero-line {
+  stroke: var(--text-secondary);
+  stroke-width: 1;
+  stroke-dasharray: 4 3;
+}
+
+.traj-line-baseline {
+  fill: none;
+  stroke: var(--gridline);
+  stroke-width: 2;
+  stroke-dasharray: 5 3;
+}
+
+.traj-line-adjusted {
+  fill: none;
+  stroke: var(--navy);
+  stroke-width: 2.5;
+}
+
+.traj-crossover-dot {
+  fill: var(--hk-35);
+  stroke: var(--canvas);
+  stroke-width: 2;
+}
+
+.traj-axis-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  fill: var(--text-secondary);
+}
+
+.traj-legend {
+  display: flex;
+  gap: 20px;
+  margin-top: 8px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.traj-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.traj-legend-swatch {
+  width: 18px;
+  height: 3px;
+  border-radius: 1px;
+  flex-shrink: 0;
+}
+
+.traj-legend-swatch.baseline {
+  background: var(--gridline);
+  border-top: 2px dashed var(--reference);
+  height: 0;
+}
+
+.traj-legend-swatch.adjusted {
+  background: var(--navy);
+}
+
+/* ── Reset button ────────────────────────────────────────────────────────── */
+
+.sim-reset {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 6px 14px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: border-color 150ms ease-out, color 150ms ease-out;
+  margin-bottom: var(--section-gap);
+}
+
+.sim-reset:hover {
+  background: transparent;
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .lever-row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .lever-value {
+    text-align: left;
+  }
+
+  .sim-summary-value {
+    font-size: 22px;
+  }
+
+  .simulator-tabs {
+    gap: 4px;
+  }
+
+  .simulator-tab {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+}
