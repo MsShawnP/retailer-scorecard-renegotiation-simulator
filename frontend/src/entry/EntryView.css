@@ -64,6 +64,16 @@
   line-height: 1.5;
 }
 
+/* ── Reduced motion ─────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .entry-btn {
+    transition: none;
+  }
+}
+
+/* ── Mobile ──────────────────────────────────────────────────────────────── */
+
 @media (max-width: 640px) {
   .entry-framing {
     font-size: 16px;

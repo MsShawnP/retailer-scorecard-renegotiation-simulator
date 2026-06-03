@@ -12,11 +12,12 @@ Public entry point for Q1:
 from __future__ import annotations
 
 import math
-from typing import Optional
+from dataclasses import replace
 
 from engine.types import (
     CostLayerBreakdown,
     LeverOverrides,
+    LeverRangeDict,
     RetailerContribution,
     RetailerInput,
 )
@@ -31,7 +32,7 @@ def calculate_gross_margin(retailer: RetailerInput) -> float:
 
 
 def calculate_deductions(
-    retailer: RetailerInput, overrides: Optional[LeverOverrides] = None
+    retailer: RetailerInput, overrides: LeverOverrides | None = None
 ) -> float:
     """gross_revenue × effective_deductions_rate."""
     rate = (
@@ -43,7 +44,7 @@ def calculate_deductions(
 
 
 def calculate_trade_spend(
-    retailer: RetailerInput, overrides: Optional[LeverOverrides] = None
+    retailer: RetailerInput, overrides: LeverOverrides | None = None
 ) -> float:
     """gross_revenue × effective_trade_spend_rate."""
     rate = (
@@ -55,7 +56,7 @@ def calculate_trade_spend(
 
 
 def calculate_working_capital_drag(
-    retailer: RetailerInput, overrides: Optional[LeverOverrides] = None
+    retailer: RetailerInput, overrides: LeverOverrides | None = None
 ) -> float:
     """(payment_terms_days / 365) × gross_revenue × cost_of_capital."""
     days = (
@@ -72,7 +73,7 @@ def calculate_labor_overhead(retailer: RetailerInput) -> float:
 
 
 def calculate_swell_returns(
-    retailer: RetailerInput, overrides: Optional[LeverOverrides] = None
+    retailer: RetailerInput, overrides: LeverOverrides | None = None
 ) -> float:
     """gross_revenue × effective_returns_rate."""
     rate = (
@@ -84,7 +85,7 @@ def calculate_swell_returns(
 
 
 def calculate_logistics_variance(
-    retailer: RetailerInput, overrides: Optional[LeverOverrides] = None
+    retailer: RetailerInput, overrides: LeverOverrides | None = None
 ) -> float:
     """gross_revenue × effective logistics rate.
 
@@ -112,7 +113,7 @@ def calculate_distributor_margin(retailer: RetailerInput) -> float:
 
 def calculate_true_contribution(
     retailer: RetailerInput,
-    overrides: Optional[LeverOverrides] = None,
+    overrides: LeverOverrides | None = None,
 ) -> tuple[float, CostLayerBreakdown]:
     """Compute true contribution and a full cost-layer breakdown.
 
@@ -165,7 +166,7 @@ def calculate_true_contribution(
 
 def calculate_contributions(
     retailers: list[RetailerInput],
-    overrides: Optional[dict[str, LeverOverrides]] = None,
+    overrides: dict[str, LeverOverrides] | None = None,
 ) -> list[RetailerContribution]:
     """Compute true contribution for every retailer, with dual-axis ranking.
 
@@ -205,7 +206,7 @@ def calculate_contributions(
 
     # Rank by true_contribution descending (rank 1 = best contributor).
     # NaN values sort to the bottom (worst rank).
-    def contribution_sort_key(item: tuple) -> float:
+    def contribution_sort_key(item: tuple[RetailerInput, float, CostLayerBreakdown]) -> float:
         tc = item[1]
         return tc if not math.isnan(tc) else float("-inf")
 
@@ -250,8 +251,8 @@ def find_break_even_value(
     retailer: RetailerInput,
     lever: str,
     current_overrides: LeverOverrides,
-    lever_range: dict,
-) -> Optional[float]:
+    lever_range: LeverRangeDict,
+) -> float | None:
     """Find the lever value at which true_contribution crosses zero.
 
     Uses bisection search (binary search) — exact and stable for monotone
@@ -352,26 +353,7 @@ def project_trajectory(
     result: list[float] = []
     for month in range(1, months + 1):
         growth_factor = (1.0 + monthly_growth) ** month
-        # Scale the revenue base; rates and fixed labor stay constant.
-        scaled_retailer = RetailerInput(
-            retailer_id=retailer.retailer_id,
-            name=retailer.name,
-            gross_revenue=retailer.gross_revenue * growth_factor,
-            cogs_rate=retailer.cogs_rate,
-            deductions_rate=retailer.deductions_rate,
-            trade_spend_rate=retailer.trade_spend_rate,
-            payment_terms_days=retailer.payment_terms_days,
-            cost_of_capital=retailer.cost_of_capital,
-            labor_hours_compliance=retailer.labor_hours_compliance,
-            labor_hours_disputes=retailer.labor_hours_disputes,
-            labor_rate=retailer.labor_rate,
-            returns_rate=retailer.returns_rate,
-            freight_differential_rate=retailer.freight_differential_rate,
-            pallet_surcharge_rate=retailer.pallet_surcharge_rate,
-            moq_penalty_rate=retailer.moq_penalty_rate,
-            distributor_margin_rate=retailer.distributor_margin_rate,
-            growth_rate_annual=retailer.growth_rate_annual,
-        )
+        scaled_retailer = replace(retailer, gross_revenue=retailer.gross_revenue * growth_factor)
         tc, _ = calculate_true_contribution(scaled_retailer, overrides)
         result.append(tc)
 

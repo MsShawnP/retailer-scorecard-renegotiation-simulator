@@ -1,6 +1,7 @@
 import * as d3 from 'd3';
-import type { Retailer, LeverOverrides } from '../types';
+import type { Retailer, LeverOverrides, CostLayerBreakdown } from '../types';
 import { calculateContributions } from '../calculations';
+import { TEAL_SCALE, TOKYO_NEGATIVE } from '../constants';
 
 export type RankingMode = 'gross' | 'contribution';
 
@@ -16,6 +17,7 @@ export interface BarDatum {
   bar_color: string;
   y: number;          // computed y-position from D3 scaleBand
   bar_width: number;  // computed bar width in pixels
+  cost_breakdown: CostLayerBreakdown;  // pre-computed from calculateContributions
 }
 
 export interface RankingLayout {
@@ -68,12 +70,6 @@ export function computeRankingLayout(
     .range([margin.top, height - margin.bottom])
     .padding(GAP / (BAR_HEIGHT + GAP));
 
-  // HK teal sequential — darkest to best contributor rank
-  const TEAL = [
-    '#063d32', '#0a5c4b', '#0e6e5a',
-    '#158f75', '#1fa282', '#35b595', '#6dcdb5',
-  ];
-
   const bars: BarDatum[] = sorted.map((r, i) => {
     const value = mode === 'gross' ? r.gross_revenue : r.true_contribution;
     const is_negative = value < 0;
@@ -83,9 +79,9 @@ export function computeRankingLayout(
 
     let bar_color: string;
     if (mode === 'contribution' && is_negative) {
-      bar_color = '#b82d4a'; // Tokyo-40 — risk
+      bar_color = TOKYO_NEGATIVE;
     } else {
-      bar_color = TEAL[Math.min(i, TEAL.length - 1)];
+      bar_color = TEAL_SCALE[Math.min(i, TEAL_SCALE.length - 1)];
     }
 
     return {
@@ -99,6 +95,7 @@ export function computeRankingLayout(
       bar_color,
       y: yScale(r.retailer_id)!,
       bar_width: barWidth,
+      cost_breakdown: r.cost_breakdown,
     };
   });
 

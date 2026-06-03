@@ -1,14 +1,15 @@
 import type { LeverOverrides } from './types';
 
 // Lailara Design System v2 — HK teal sequential palette (darkest = best contributor)
+// References CSS custom properties defined in App.css :root
 export const TEAL_SCALE = [
-  '#063d32', '#0a5c4b', '#0e6e5a', '#158f75',
-  '#1fa282', '#35b595', '#6dcdb5', '#b5e4d8',
+  'var(--teal-0)', 'var(--teal-1)', 'var(--teal-2)', 'var(--teal-3)',
+  'var(--teal-4)', 'var(--teal-5)', 'var(--teal-6)', 'var(--teal-7)',
 ] as const;
 
 // Tokyo palette for net-negative retailers
-export const TOKYO_NEGATIVE = '#b82d4a';
-export const TOKYO_NEGATIVE_LIGHT = '#e68a9a';
+export const TOKYO_NEGATIVE = 'var(--tokyo-40)';
+export const TOKYO_NEGATIVE_LIGHT = 'var(--tokyo-70)';
 
 // Negotiability tags per cost lever (constant across all retailers)
 export const NEGOTIABILITY_TAGS: Record<keyof LeverOverrides, string> = {
@@ -20,11 +21,11 @@ export const NEGOTIABILITY_TAGS: Record<keyof LeverOverrides, string> = {
 };
 
 export const NEGOTIABILITY_COLORS: Record<string, string> = {
-  Often: '#0e6e5a',       // HK-25 teal
-  Partly: '#1f2e7a',      // Chicago navy
-  Sometimes: '#7a3d10',   // Singapore dark
-  Rarely: '#b82d4a',      // Tokyo
-  Internal: '#595959',    // text-secondary
+  Often: 'var(--neg-often)',
+  Partly: 'var(--neg-partly)',
+  Sometimes: 'var(--neg-sometimes)',
+  Rarely: 'var(--neg-rarely)',
+  Internal: 'var(--neg-internal)',
 };
 
 // Cost layer display labels

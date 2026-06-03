@@ -34,25 +34,7 @@ def _build_input(profile: dict):
     """Convert a fixture profile dict to a RetailerInput."""
     from engine.types import RetailerInput
 
-    return RetailerInput(
-        retailer_id=profile["retailer_id"],
-        name=profile["name"],
-        gross_revenue=profile["gross_revenue"],
-        cogs_rate=profile["cogs_rate"],
-        deductions_rate=profile["deductions_rate"],
-        trade_spend_rate=profile["trade_spend_rate"],
-        payment_terms_days=profile["payment_terms_days"],
-        cost_of_capital=profile["cost_of_capital"],
-        labor_hours_compliance=profile["labor_hours_compliance"],
-        labor_hours_disputes=profile["labor_hours_disputes"],
-        labor_rate=profile["labor_rate"],
-        returns_rate=profile["returns_rate"],
-        freight_differential_rate=profile["freight_differential_rate"],
-        pallet_surcharge_rate=profile["pallet_surcharge_rate"],
-        moq_penalty_rate=profile["moq_penalty_rate"],
-        distributor_margin_rate=profile["distributor_margin_rate"],
-        growth_rate_annual=profile["growth_rate_annual"],
-    )
+    return RetailerInput.from_dict(profile)
 
 
 def _all_inputs():

@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Retailer, LeverOverrides } from '../types';
 import { formatDollars, formatPercent } from '../constants';
+import { useAnimatedNumber } from '../hooks/useAnimatedNumber';
 import {
   computeFreedResources,
   computeRedeployment,
@@ -47,6 +48,23 @@ export default function RedeploymentView({
     return resolved;
   }, [remaining, absorptionPcts]);
 
+  // Clear absorption entries for retailers that left the remaining set
+  useEffect(() => {
+    const remainingIds = new Set(remaining.map((r) => r.retailer_id));
+    setAbsorptionPcts((prev) => {
+      const cleaned: Record<string, number> = {};
+      let changed = false;
+      for (const [id, pct] of Object.entries(prev)) {
+        if (remainingIds.has(id)) {
+          cleaned[id] = pct;
+        } else {
+          changed = true;
+        }
+      }
+      return changed ? cleaned : prev;
+    });
+  }, [remaining]);
+
   const absorptionRates: AbsorptionRates = useMemo(() => {
     const rates: AbsorptionRates = {};
     for (const [id, pct] of Object.entries(resolvedAbsorptionPcts)) {
@@ -65,11 +83,27 @@ export default function RedeploymentView({
     [retailers, walkedAwayIds, overridesByRetailerId, absorptionRates],
   );
 
+  const animatedNetImpact = useAnimatedNumber(result.net_impact);
+
   const walkedAwayNames = walkedAway.map((r) => r.name).join(', ');
   const netPositive = result.net_impact >= 0;
 
   function handleAbsorptionChange(retailerId: string, pct: number) {
     setAbsorptionPcts((prev) => ({ ...prev, [retailerId]: pct }));
+  }
+
+  // All retailers walked away — no redeployment possible
+  if (walkedAwayIds.size === retailers.length) {
+    return (
+      <section className="redeployment" aria-label="Walk-away redeployment analysis">
+        <h2 className="redeployment-title">If you walked away</h2>
+        <p className="redeployment-subtitle">
+          You have walked away from every retailer. There are no remaining partners
+          to absorb freed resources. Restore at least one retailer to model
+          redeployment scenarios.
+        </p>
+      </section>
+    );
   }
 
   return (
@@ -155,7 +189,7 @@ export default function RedeploymentView({
         <div className="net-impact-label">Net portfolio impact</div>
         <div className={`net-impact-value ${netPositive ? 'positive' : 'negative'}`}>
           {result.net_impact >= 0 ? '+' : ''}
-          {formatDollars(result.net_impact)}
+          {formatDollars(animatedNetImpact)}
         </div>
         <p className="net-impact-caption">
           {netPositive
@@ -202,6 +236,8 @@ function ComparisonTable({ before, after }: ComparisonTableProps) {
     delta: number;
     formatDelta: (n: number) => string;
     isMonetary: boolean;
+    invertDelta: boolean;
+    neutralDelta: boolean;
   }> = [
     {
       label: 'Total Revenue',
@@ -212,6 +248,8 @@ function ComparisonTable({ before, after }: ComparisonTableProps) {
       delta: after.total_revenue - before.total_revenue,
       formatDelta: formatDollars,
       isMonetary: true,
+      invertDelta: false,
+      neutralDelta: false,
     },
     {
       label: 'True Contribution',
@@ -222,6 +260,8 @@ function ComparisonTable({ before, after }: ComparisonTableProps) {
       delta: after.total_contribution - before.total_contribution,
       formatDelta: formatDollars,
       isMonetary: true,
+      invertDelta: false,
+      neutralDelta: false,
     },
     {
       label: 'Working Capital',
@@ -232,6 +272,8 @@ function ComparisonTable({ before, after }: ComparisonTableProps) {
       delta: after.total_working_capital - before.total_working_capital,
       formatDelta: (n) => (n === 0 ? '—' : formatDollars(n)),
       isMonetary: true,
+      invertDelta: true,
+      neutralDelta: false,
     },
     {
       label: 'Retailers',
@@ -242,6 +284,8 @@ function ComparisonTable({ before, after }: ComparisonTableProps) {
       delta: after.retailer_count - before.retailer_count,
       formatDelta: (n) => (n >= 0 ? `+${n}` : String(n)),
       isMonetary: false,
+      invertDelta: false,
+      neutralDelta: true,
     },
   ];
 
@@ -265,16 +309,16 @@ function ComparisonTable({ before, after }: ComparisonTableProps) {
               ? 'delta-negative'
               : 'delta-neutral';
 
-          // For working capital, a reduction (negative delta) is actually good
-          const workingCapitalRow = row.label === 'Working Capital';
-          const effectiveClass = workingCapitalRow
-            ? isNegativeDelta
-              ? 'delta-positive'
-              : isPositiveDelta
-                ? 'delta-negative'
-                : 'delta-neutral'
-            : row.label === 'Retailers'
-              ? 'delta-neutral'
+          // invertDelta: a reduction (negative delta) is good (e.g. Working Capital)
+          // neutralDelta: always show neutral styling (e.g. Retailers count)
+          const effectiveClass = row.neutralDelta
+            ? 'delta-neutral'
+            : row.invertDelta
+              ? isNegativeDelta
+                ? 'delta-positive'
+                : isPositiveDelta
+                  ? 'delta-negative'
+                  : 'delta-neutral'
               : deltaClass;
 
           const deltaStr =
