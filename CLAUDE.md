@@ -27,6 +27,7 @@ Brief suggests: Python, FastAPI, D3.js, SQL. Final decision pending.
 - HANDOFF.md — current session state
 - PLAN.md — current work arc
 - FAILURES.md — things tried that didn't work
+- docs/solutions/ — documented solutions and architecture patterns, organized by category with YAML frontmatter (module, tags, problem_type). Relevant when implementing or debugging in documented areas.
 
 Read PLAN.md and HANDOFF.md at session start. DECISIONS.md and
 FAILURES.md as relevant.
