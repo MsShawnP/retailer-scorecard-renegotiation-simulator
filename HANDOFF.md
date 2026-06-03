@@ -73,3 +73,15 @@ before building.
 **Next:** Fresh session → /ce:work beginning with U1 (Cinderhaven schema audit + data enrichment).
 
 ---
+
+## 2026-06-03 16:15 — /ce:work session: U1–U7 complete, 81 tests passing
+
+**What changed:** Built 7 of 8 implementation units — data pipeline, Python engine, TypeScript frontend, ranking chart, entry/methodology views, renegotiation simulator, and redeployment view. All committed on main.
+
+**Why:** Full /ce:work execution of the implementation plan. U1–U7 represent Phase 1 (data foundation) + Phase 2 (core interactive) of the phased delivery plan.
+
+**State:** App builds cleanly (275KB JS / 24KB CSS). 81 tests passing (Python engine + TypeScript engine + domain logic). Two garbled untracked files in frontend/public/fonts/ need `git clean -f` removal — harmless, do not commit. U8 (design polish + Cloudflare Pages deployment) is the only remaining unit. Ranking inversion confirmed: Walmart #1 gross → #7 contribution (net -$106K). .gitignore updated to cover .wrangler/ and dist/.
+
+**Next:** New session → U8: run CSS token audit (`grep -r '#[0-9a-fA-F]' frontend/src --include='*.css'`), add responsive breakpoints where missing, confirm `prefers-reduced-motion` is honored, then `wrangler pages deploy` from frontend/dist/.
+
+---

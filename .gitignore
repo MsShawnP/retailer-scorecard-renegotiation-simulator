@@ -17,6 +17,8 @@ build/
 # Node
 node_modules/
 .next/
+.wrangler/
+dist/
 
 # OS
 .DS_Store
