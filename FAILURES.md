@@ -38,6 +38,18 @@ failed and may have its own entry below]
 
 **What we tried instead:** Used `Remove-Item -Force` via PowerShell with a wildcard — did not find them (encoding mismatch). Used `git clean -f` — blocked by CLAUDE.md safety rule requiring explicit user confirmation before running destructive git commands.
 
-**Status:** Open — artifacts still present. Next session: run `git clean -f -- "frontend/public/fonts*"` after explicit user confirmation, or manually delete via File Explorer.
+**Status:** Resolved — artifacts deleted via PowerShell regex match (`Get-ChildItem | Where-Object { $_.Name -match 'fonts.*&&' } | Remove-Item`) on 2026-06-03. `git clean -f` was not needed.
 
 **Tags:** subagent, windows, powershell, bash-syntax, font-copy, git-clean, artifacts
+
+### 2026-06-03 — KeHE modeled as a retailer instead of a distributor
+
+**Attempted:** U1 subagent created retailer profiles in retailers.json with KeHE as one of 7 "retailers" in the ranking chart.
+
+**Why it didn't work:** KeHE is a distributor (like UNFI), not a retailer. R6 explicitly requires "Distributor costs (UNFI, KeHE) folded into the retailer they serve." The model already has a `distributor_margin` cost layer — KeHE's margin should be attributed to the retailers it distributes for, not shown as a standalone account. The ranking currently shows 7 bars when it should show 6 (or however many actual retailers exist after removing KeHE).
+
+**What we tried instead:** Not yet fixed. Captured for next session.
+
+**Status:** Open — fix in next session. Affects retailers.json, ranking bar count, and distributor_margin attribution on served retailers.
+
+**Tags:** data-model, distributor, kehe, R6, retailers-json, subagent-error
