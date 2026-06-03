@@ -121,7 +121,7 @@ export default function RankingView({
                   y={BAR_HEIGHT / 2}
                   dy="0.35em"
                   className={
-                    `ranking-value${bar.is_negative ? ' ranking-value-negative' : ''}`
+                    `ranking-value${bar.is_negative ? ' ranking-value-negative' : ' ranking-value-positive'}`
                   }
                   opacity={dimmed ? 0.3 : 1}
                 >
