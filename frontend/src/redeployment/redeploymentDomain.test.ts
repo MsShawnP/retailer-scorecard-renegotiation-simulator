@@ -76,9 +76,9 @@ describe('computePortfolioSummary', () => {
     expect(summary.total_revenue).toBeGreaterThan(0);
   });
 
-  it('returns retailer_count = 7 for all retailers', () => {
+  it('returns retailer_count = 6 for all retailers', () => {
     const summary = computePortfolioSummary(retailers, overrides);
-    expect(summary.retailer_count).toBe(7);
+    expect(summary.retailer_count).toBe(6);
   });
 
   it('returns zeroed summary for empty array', () => {
@@ -98,12 +98,12 @@ describe('computePortfolioSummary', () => {
 // ── Test 3: computeRedeployment — Walmart walked away: before includes Walmart ─
 
 describe('computeRedeployment', () => {
-  it('before.retailer_count includes Walmart (all 7), after does not (6)', () => {
+  it('before.retailer_count includes Walmart (all 6), after does not (5)', () => {
     const walkedAwayIds = new Set(['walmart']);
     const absorptionRates: AbsorptionRates = {};
     const result = computeRedeployment(retailers, walkedAwayIds, overrides, absorptionRates);
-    expect(result.before.retailer_count).toBe(7);
-    expect(result.after.retailer_count).toBe(6);
+    expect(result.before.retailer_count).toBe(6);
+    expect(result.after.retailer_count).toBe(5);
   });
 
   it('before.total_revenue includes Walmart revenue', () => {

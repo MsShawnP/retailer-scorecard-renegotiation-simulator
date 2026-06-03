@@ -48,8 +48,8 @@ failed and may have its own entry below]
 
 **Why it didn't work:** KeHE is a distributor (like UNFI), not a retailer. R6 explicitly requires "Distributor costs (UNFI, KeHE) folded into the retailer they serve." The model already has a `distributor_margin` cost layer — KeHE's margin should be attributed to the retailers it distributes for, not shown as a standalone account. The ranking currently shows 7 bars when it should show 6 (or however many actual retailers exist after removing KeHE).
 
-**What we tried instead:** Not yet fixed. Captured for next session.
+**What we tried instead:** Removed KeHE as a standalone entry. Marked Sprouts and Regional Group as `is_via_distributor: true` with `distributor_name: "KeHE"` and `distributor_margin_rate: 0.08`. KeHE's 8% margin now appears in their cost stacks. Ranking dropped from 7 to 6 bars. Sprouts fell from #1 to #2 contribution (Costco now #1). Updated export script, retailers.json, test fixtures, expected outputs, and all tests.
 
-**Status:** Open — fix in next session. Affects retailers.json, ranking bar count, and distributor_margin attribution on served retailers.
+**Status:** Resolved — 2026-06-03.
 
 **Tags:** data-model, distributor, kehe, R6, retailers-json, subagent-error

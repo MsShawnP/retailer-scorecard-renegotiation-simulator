@@ -23,9 +23,9 @@ const CONTAINER_WIDTH = 860;
 // ── Test 1: 7 bars for 7 retailers ───────────────────────────────────────────
 
 describe('computeRankingLayout', () => {
-  it('returns 7 bars for 7 retailers', () => {
+  it('returns 6 bars for 6 retailers', () => {
     const layout = computeRankingLayout(retailers, undefined, 'gross', CONTAINER_WIDTH);
-    expect(layout.bars).toHaveLength(7);
+    expect(layout.bars).toHaveLength(6);
   });
 
   // ── Test 2: gross mode sorts by gross_revenue descending ─────────────────
@@ -50,9 +50,9 @@ describe('computeRankingLayout', () => {
 
   // ── Test 4: Walmart is last (index 6) in contribution mode ───────────────
 
-  it('places Walmart last (index 6) in contribution mode', () => {
+  it('places Walmart last (index 5) in contribution mode', () => {
     const layout = computeRankingLayout(retailers, undefined, 'contribution', CONTAINER_WIDTH);
-    expect(layout.bars[6].retailer_id).toBe('walmart');
+    expect(layout.bars[5].retailer_id).toBe('walmart');
   });
 
   // ── Test 5: Walmart bar is_negative=true in contribution mode ────────────

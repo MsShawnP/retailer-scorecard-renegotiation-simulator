@@ -40,8 +40,8 @@ export default function EntryView({ onExplore, onMethodology }: Props) {
 
       <div className="entry-meta">
         <p>
-          Built on synthetic Cinderhaven data. $23.8M TTM revenue across
-          7 retail relationships. All cost-layer rates calibrated against
+          Built on synthetic Cinderhaven data. $17.2M TTM revenue across
+          6 retail relationships. All cost-layer rates calibrated against
           CPG industry benchmarks for specialty food brands at this scale.
         </p>
       </div>

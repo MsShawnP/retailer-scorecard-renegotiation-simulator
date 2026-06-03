@@ -260,7 +260,7 @@ export default function MethodologyView({ retailers, onContinue, onBack }: Props
       {/* ── CTA ── */}
       <div className="methodology-cta">
         <p className="methodology-cta-label">
-          Six layers. Seven retailers. One net-negative account.
+          Six layers. Six retailers. One net-negative account.
         </p>
         <button className="methodology-cta-btn" onClick={onContinue}>
           Explore the simulator →

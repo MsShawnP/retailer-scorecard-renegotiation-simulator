@@ -77,11 +77,11 @@ describe('calculateContributions', () => {
     expect(walmart!.rank_by_contribution).toBe(retailers.length);
   });
 
-  it('ranks Sprouts first by contribution', () => {
+  it('ranks Costco first by contribution', () => {
     const results = calculateContributions(retailers);
-    const sprouts = results.find((r) => r.retailer_id === 'sprouts');
-    expect(sprouts).toBeDefined();
-    expect(sprouts!.rank_by_contribution).toBe(1);
+    const costco = results.find((r) => r.retailer_id === 'costco');
+    expect(costco).toBeDefined();
+    expect(costco!.rank_by_contribution).toBe(1);
   });
 
   it('ranks Costco in top 2 by contribution', () => {
