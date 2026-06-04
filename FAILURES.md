@@ -65,3 +65,15 @@ failed and may have its own entry below]
 **Status:** Resolved — 2026-06-03. Key lesson: when a Pages project is deleted, check Workers scripts and Workers Domains for orphaned bindings before attempting custom domain setup on a new project.
 
 **Tags:** cloudflare, pages, workers, dns, custom-domain, orphaned-record, deployment
+
+### 2026-06-04 — /improve audit flagged README as stale when it was already complete
+
+**Attempted:** During the /improve audit, the Explore subagent reported README.md as 0.3 KB. Based on this, flagged it as CRITICAL — "says Early stage and Stack TBD." Presented this to the user as a top finding.
+
+**Why it didn't work:** The Explore subagent's file size estimate was stale or inaccurate. The README had already been rewritten to 70 lines (commit 5ed859c) in a prior session. A direct Read of the file confirmed it was complete and followed the template. The finding was a false positive that had to be walked back after presenting it.
+
+**What we tried instead:** Re-read the file directly, confirmed it was already complete, checked git log to verify the rewrite commit. Marked the task as "already done" and moved on.
+
+**Status:** Resolved — 2026-06-04. Key lesson: during audits, always Read the actual file content before flagging it as a finding. Don't trust file size estimates or subagent directory scans as a proxy for file content. Verify before presenting findings to the user.
+
+**Tags:** improve, audit, false-positive, subagent, explore-agent, readme, file-size-estimate
