@@ -1,0 +1,7 @@
+# Core engine: stdlib only (dataclasses, math) — no deps required.
+
+# Export script (scripts/export_data.py) — connects to Cinderhaven Postgres
+psycopg2-binary>=2.9
+
+# Testing
+pytest>=8.0

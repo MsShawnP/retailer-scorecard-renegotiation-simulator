@@ -181,3 +181,15 @@ before building.
 **Next:** Run /ce:compound to extract learnings from this project (step 10 of 11 in Heavy workflow). Then the arc is complete.
 
 ---
+
+## 2026-06-04 13:12
+
+**What changed:** First /improve pass — fixed ESLint errors (setState-in-effect, unstable useMemo deps), added requirements.txt, security headers, removed orphan src/, fixed Postgres DSN encoding.
+
+**Why:** Project just shipped; first health check to catch quality and security gaps before moving on. Audit found 2 critical (README stale — already fixed in prior session, missing Python deps), 5 important (ESLint errors, orphan dir, stale health tracker, token rotation), 4 nice-to-have (security headers, DSN encoding, type naming). All addressed except manual token rotation.
+
+**State:** 93 tests passing (77 TS + 16 Python). ESLint clean (0 errors, 0 warnings). TypeScript clean. npm audit: 0 vulnerabilities. Deployed site at retailer-scorecard.lailarallc.com is stale (pre-improvement). Working tree has uncommitted improvement changes.
+
+**Next:** /wrap this session. Redeploy to pick up security headers when ready. Rotate Cloudflare API token if not already done. Next /improve due 2026-07-04.
+
+---

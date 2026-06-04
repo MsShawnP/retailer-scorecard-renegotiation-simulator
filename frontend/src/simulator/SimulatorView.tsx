@@ -37,7 +37,10 @@ export default function SimulatorView({
   onToggleWalkAway,
 }: Props) {
   const retailer = retailers.find((r) => r.retailer_id === selectedRetailerId) ?? retailers[0];
-  const overrides = overridesByRetailerId[retailer.retailer_id] ?? {};
+  const overrides = useMemo(
+    () => overridesByRetailerId[retailer.retailer_id] ?? {},
+    [overridesByRetailerId, retailer.retailer_id],
+  );
 
   const baselineContrib = useMemo(() => calcTrueContribution(retailer, {}), [retailer]);
   const adjustedContrib = useMemo(
