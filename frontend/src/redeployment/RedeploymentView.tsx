@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import type { Retailer, LeverOverrides } from '../types';
 import { formatDollars, formatPercent } from '../constants';
 import { useAnimatedNumber } from '../hooks/useAnimatedNumber';
@@ -47,23 +47,6 @@ export default function RedeploymentView({
     }
     return resolved;
   }, [remaining, absorptionPcts]);
-
-  // Clear absorption entries for retailers that left the remaining set
-  useEffect(() => {
-    const remainingIds = new Set(remaining.map((r) => r.retailer_id));
-    setAbsorptionPcts((prev) => {
-      const cleaned: Record<string, number> = {};
-      let changed = false;
-      for (const [id, pct] of Object.entries(prev)) {
-        if (remainingIds.has(id)) {
-          cleaned[id] = pct;
-        } else {
-          changed = true;
-        }
-      }
-      return changed ? cleaned : prev;
-    });
-  }, [remaining]);
 
   const absorptionRates: AbsorptionRates = useMemo(() => {
     const rates: AbsorptionRates = {};

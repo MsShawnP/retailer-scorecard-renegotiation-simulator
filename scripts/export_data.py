@@ -372,13 +372,20 @@ def _pg_connect():
     if not _HAS_PG:
         return None
     dsn = os.environ.get("DATABASE_URL")
-    if not dsn:
-        pw = os.environ.get("POSTGRES_PASSWORD")
-        if not pw:
+    if dsn:
+        try:
+            return psycopg2.connect(dsn)
+        except Exception as e:
+            print(f'Postgres connection failed: {e}', file=sys.stderr)
             return None
-        dsn = f"postgresql://postgres:{pw}@localhost:5432/cinderhaven"
+    pw = os.environ.get("POSTGRES_PASSWORD")
+    if not pw:
+        return None
     try:
-        return psycopg2.connect(dsn)
+        return psycopg2.connect(
+            host="localhost", port=5432, dbname="cinderhaven",
+            user="postgres", password=pw,
+        )
     except Exception as e:
         print(f'Postgres connection failed: {e}', file=sys.stderr)
         return None

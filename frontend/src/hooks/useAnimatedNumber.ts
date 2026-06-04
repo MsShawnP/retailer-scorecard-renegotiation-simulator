@@ -16,16 +16,12 @@ export function useAnimatedNumber(target: number, duration = 250): number {
     const from = prevRef.current;
     prevRef.current = target;
 
-    // Respect prefers-reduced-motion: snap immediately
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      setDisplayed(target);
-      return;
-    }
+    if (from === target) return;
 
-    // If no change, skip animation
-    if (from === target) {
-      setDisplayed(target);
-      return;
+    // Respect prefers-reduced-motion: snap via rAF (async) to avoid synchronous setState
+    if (typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      rafRef.current = requestAnimationFrame(() => setDisplayed(target));
+      return () => { if (rafRef.current !== null) cancelAnimationFrame(rafRef.current); };
     }
 
     const start = performance.now();
@@ -33,7 +29,6 @@ export function useAnimatedNumber(target: number, duration = 250): number {
     function tick(now: number) {
       const elapsed = now - start;
       const t = Math.min(elapsed / duration, 1);
-      // Linear interpolation
       setDisplayed(from + (target - from) * t);
       if (t < 1) {
         rafRef.current = requestAnimationFrame(tick);

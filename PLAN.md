@@ -114,3 +114,17 @@ Each entry records what was found, what was fixed, and when to
 check again.
 
 <!-- Entries are added by /improve — don't delete this section -->
+
+### 2026-06-04 — Improvement pass
+- **Trigger:** User-initiated, first /improve on this project
+- **What was reviewed:** Code quality (ESLint, TypeScript), project structure, Python dependencies, security (10-point OWASP audit), git hygiene, README, project health tracker
+- **What was fixed:**
+  - Added requirements.txt for Python engine dependencies
+  - Fixed 2 ESLint errors: setState-in-effect in useAnimatedNumber.ts (rAF pattern) and RedeploymentView.tsx (removed redundant cleanup effect)
+  - Fixed 2 ESLint warnings: unstable useMemo deps in SimulatorView.tsx (wrapped overrides in useMemo)
+  - Removed orphan src/ directory (contained only boilerplate CLAUDE.md, no code)
+  - Added Cloudflare Pages security headers (_headers file: CSP, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, Permissions-Policy)
+  - Fixed Postgres DSN password encoding in export_data.py (keyword args instead of string interpolation)
+  - Updated project health tracker (dep audit: yes, 0 npm vulnerabilities)
+- **Deferred:** Cloudflare API token rotation (manual action, flagged to user). Ranking chart CONTAINER_WIDTH hardcode (cosmetic, viewBox handles scaling). AppView type rename (correct for usage, not worth renaming per project rules).
+- **Next review:** 2026-07-04
