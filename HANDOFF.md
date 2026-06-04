@@ -193,3 +193,15 @@ before building.
 **Next:** /wrap this session. Redeploy to pick up security headers when ready. Rotate Cloudflare API token if not already done. Next /improve due 2026-07-04.
 
 ---
+
+## 2026-06-04 13:15 — Session wrap: first /improve pass complete
+
+**Started from:** Arc fully complete (all 11 Heavy workflow steps done). Project deployed. Ran /improve for first health check.
+
+**Did:** Full audit (manual + security subagent + ESLint + TypeScript + npm audit). Fixed 4 ESLint issues (setState-in-effect, unstable useMemo deps), added requirements.txt, security headers (_headers), removed orphan src/, fixed Postgres DSN encoding. Updated health tracker.
+
+**State:** 93 tests passing. ESLint clean. TypeScript clean. npm audit: 0 vulnerabilities. All changes committed locally. Deployed site stale (security headers not live until redeployed). Manual action outstanding: rotate Cloudflare API token.
+
+**Next:** Project done. Redeploy (`cd frontend && npm run deploy`) to pick up security headers. Rotate API token. Move to next project. Next /improve due 2026-07-04.
+
+---
