@@ -48,9 +48,9 @@
   flex: 1;
   min-width: 140px;
   padding: 16px 20px;
-  border: 1px solid var(--border);
+  border-left: 4px solid var(--hk-35);
   border-radius: 2px;
-  background: var(--canvas);
+  background: #ffffff;
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -273,7 +273,7 @@
   padding: 24px 28px;
   border: 1px solid var(--border);
   border-radius: 2px;
-  background: var(--canvas);
+  background: #ffffff;
   margin-bottom: var(--section-gap);
   display: flex;
   flex-direction: column;
