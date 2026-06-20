@@ -236,7 +236,8 @@ body {
   display: flex;
   flex-direction: column;
   padding: 16px 24px;
-  border: 1px solid var(--border);
+  background: #ffffff;
+  border-left: 4px solid var(--navy);
   border-radius: 2px;
   min-width: 140px;
 }
@@ -246,7 +247,7 @@ body {
   font-size: 36px;
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--text-primary);
+  color: var(--navy);
 }
 
 .stat-label {
