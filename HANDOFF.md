@@ -205,3 +205,15 @@ before building.
 **Next:** Project done. Redeploy (`cd frontend && npm run deploy`) to pick up security headers. Rotate API token. Move to next project. Next /improve due 2026-07-04.
 
 ---
+
+## 2026-06-25 17:35 — Exec-readiness fixes: 5 commits deployed
+
+**Started from:** Project clean on main, last deployed. Exec-readiness audit findings ready to apply.
+
+**Did:** Applied 14 exec-readiness audit findings (OG/Twitter meta, favicon, COGS + distributor margin methodology sections, global reset, absorption presets, ranking hint, walk-away button sizing, hex→var(--surface), max-width 1200px). Then 5 design system compliance fixes (color: white→var(--card-text), prefers-reduced-motion queries, entry text 660px, COGS chart neutral colors, redeployment border normalization). Then 3 incremental improvements: stat-card pattern on sim-summary, absorption total with over-100% growth indicator, lever groups split into cost rates + payment terms. 5 commits total, all deployed.
+
+**State:** All deployed to retailer-scorecard.lailarallc.com. tsc/eslint clean, 77 tests pass, 283KB JS / 28KB CSS. No bare hex outside App.css, no bare `color: white`, all CSS transitions have prefers-reduced-motion coverage.
+
+**Next:** Project is exec-ready. Run /improve when due (2026-07-04), or move to next project.
+
+---
