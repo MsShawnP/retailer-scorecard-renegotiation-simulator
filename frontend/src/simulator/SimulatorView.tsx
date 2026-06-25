@@ -132,18 +132,32 @@ export default function SimulatorView({
 
       {/* ── Levers ────────────────────────────────────────────────────────── */}
       <div className="sim-levers">
-        <div className="sim-levers-heading">Negotiation levers</div>
-        {leverSpecs.map((spec) => (
-          <LeverRow
-            key={spec.lever}
-            spec={spec}
-            currentValue={
-              overrides[spec.lever] ?? spec.range.current
-            }
-            isModified={spec.lever in overrides}
-            onChange={(v) => handleLeverChange(spec.lever, v)}
-          />
-        ))}
+        <div className="sim-levers-heading">Cost rate levers</div>
+        {leverSpecs
+          .filter((s) => s.unit === 'percent')
+          .map((spec) => (
+            <LeverRow
+              key={spec.lever}
+              spec={spec}
+              currentValue={overrides[spec.lever] ?? spec.range.current}
+              isModified={spec.lever in overrides}
+              onChange={(v) => handleLeverChange(spec.lever, v)}
+            />
+          ))}
+      </div>
+      <div className="sim-levers">
+        <div className="sim-levers-heading">Payment terms</div>
+        {leverSpecs
+          .filter((s) => s.unit === 'days')
+          .map((spec) => (
+            <LeverRow
+              key={spec.lever}
+              spec={spec}
+              currentValue={overrides[spec.lever] ?? spec.range.current}
+              isModified={spec.lever in overrides}
+              onChange={(v) => handleLeverChange(spec.lever, v)}
+            />
+          ))}
       </div>
 
       {/* ── Compound break-even card ───────────────────────────────────────── */}
