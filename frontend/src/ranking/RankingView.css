@@ -27,12 +27,12 @@
 
 .ranking-btn.active {
   background: var(--navy);
-  color: white;
+  color: var(--card-text);
 }
 
 .ranking-btn:hover:not(.active) {
   background: var(--navy);
-  color: white;
+  color: var(--card-text);
   opacity: 0.8;
 }
 

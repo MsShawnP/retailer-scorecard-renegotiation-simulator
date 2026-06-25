@@ -104,7 +104,7 @@
   padding: 14px 28px;
   border-radius: 2px;
   background: var(--navy);
-  color: white;
+  color: var(--card-text);
   border: none;
   cursor: pointer;
   transition: opacity 150ms ease-out;
@@ -135,5 +135,11 @@
 
   .methodology-cta-label {
     font-size: 17px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .methodology-cta-btn {
+    transition: none;
   }
 }
