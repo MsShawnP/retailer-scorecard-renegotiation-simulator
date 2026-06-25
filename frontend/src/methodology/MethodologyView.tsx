@@ -15,9 +15,10 @@ interface MiniChartProps {
   retailers: Retailer[];
   layerKey: keyof CostLayerBreakdown;
   compareIds?: [string, string];
+  neutral?: boolean;
 }
 
-function LayerMiniChart({ retailers, layerKey, compareIds }: MiniChartProps) {
+function LayerMiniChart({ retailers, layerKey, compareIds, neutral }: MiniChartProps) {
   const contributions = calculateContributions(retailers);
   const [idA, idB] = compareIds ?? ['walmart', 'costco'];
   const rA = contributions.find(r => r.retailer_id === idA);
@@ -38,13 +39,13 @@ function LayerMiniChart({ retailers, layerKey, compareIds }: MiniChartProps) {
       aria-label={`Cost comparison: ${rA.name} vs ${rB.name} for this cost layer`}
     >
       <text x={0} y={BAR_H / 2 + 4} className="mini-label">{rA.name}</text>
-      <rect x={80} y={0} width={(aVal / maxVal) * MAX_W} height={BAR_H} fill="var(--tokyo-40)" />
+      <rect x={80} y={0} width={(aVal / maxVal) * MAX_W} height={BAR_H} fill={neutral ? "var(--navy-light)" : "var(--tokyo-40)"} />
       <text x={80 + (aVal / maxVal) * MAX_W + 6} y={BAR_H / 2 + 4} className="mini-value">
         {formatDollars(aVal)}
       </text>
 
       <text x={0} y={BAR_H + 24 + BAR_H / 2 + 4} className="mini-label">{rB.name}</text>
-      <rect x={80} y={BAR_H + 24} width={(bVal / maxVal) * MAX_W} height={BAR_H} fill="var(--hk-35)" />
+      <rect x={80} y={BAR_H + 24} width={(bVal / maxVal) * MAX_W} height={BAR_H} fill={neutral ? "var(--navy-light)" : "var(--hk-35)"} />
       <text x={80 + (bVal / maxVal) * MAX_W + 6} y={BAR_H + 24 + BAR_H / 2 + 4} className="mini-value">
         {formatDollars(bVal)}
       </text>
@@ -97,7 +98,7 @@ export default function MethodologyView({ retailers, onContinue, onBack }: Props
         <div className="method-section-header">
           <h2 className="section-title">Cost of Goods Sold</h2>
         </div>
-        <LayerMiniChart retailers={retailers} layerKey="gross_margin" />
+        <LayerMiniChart retailers={retailers} layerKey="gross_margin" neutral />
         <p className="section-body">
           Everything below starts from gross margin, not gross revenue. COGS
           rates in this model range from 46% (Costco) to 55% (Walmart),

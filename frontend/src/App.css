@@ -487,6 +487,14 @@ button:focus-visible {
   color: var(--text-primary);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .nav-back,
+  .global-reset,
+  button {
+    transition: none;
+  }
+}
+
 /* ─── Mobile ──────────────────────────────────────────────── */
 
 @media (max-width: 640px) {
