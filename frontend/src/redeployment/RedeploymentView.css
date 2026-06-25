@@ -50,7 +50,7 @@
   padding: 16px 20px;
   border-left: 4px solid var(--hk-35);
   border-radius: 2px;
-  background: #ffffff;
+  background: var(--surface);
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -104,6 +104,41 @@
   margin-bottom: 16px;
   line-height: 1.5;
   max-width: 560px;
+}
+
+.absorption-presets {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.absorption-preset-btn {
+  background: var(--navy);
+  color: var(--card-text);
+  border: 1px solid var(--navy);
+  border-radius: 2px;
+  padding: 6px 14px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 150ms ease-out;
+}
+
+.absorption-preset-btn:hover {
+  opacity: 0.85;
+}
+
+.absorption-preset-btn.secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  border-color: var(--border);
+}
+
+.absorption-preset-btn.secondary:hover {
+  background: transparent;
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
 .absorption-list {
@@ -273,7 +308,7 @@
   padding: 24px 28px;
   border: 1px solid var(--border);
   border-radius: 2px;
-  background: #ffffff;
+  background: var(--surface);
   margin-bottom: var(--section-gap);
   display: flex;
   flex-direction: column;
