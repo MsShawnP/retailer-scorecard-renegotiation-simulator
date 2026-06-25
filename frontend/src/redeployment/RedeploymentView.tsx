@@ -181,6 +181,20 @@ export default function RedeploymentView({
               );
             })}
           </div>
+          {(() => {
+            const total = Object.values(resolvedAbsorptionPcts).reduce((s, p) => s + p, 0);
+            const totalPct = total / remaining.length > 0 ? total : 0;
+            return totalPct > 0 ? (
+              <div className={`absorption-total${totalPct > 100 ? ' over' : ''}`}>
+                Total absorption: {formatPercent(totalPct / 100, 0)}
+                {totalPct > 100 && (
+                  <span className="absorption-total-note">
+                    {' '}— models growth beyond redistribution
+                  </span>
+                )}
+              </div>
+            ) : null;
+          })()}
         </div>
       )}
 
