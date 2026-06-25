@@ -132,6 +132,29 @@ export default function RedeploymentView({
             0% if they cannot take more volume. Total absorption above 100% models
             revenue growth, not just redistribution.
           </p>
+          <div className="absorption-presets">
+            <button
+              className="absorption-preset-btn"
+              onClick={() => {
+                const even = Math.round(100 / remaining.length / 5) * 5;
+                setAbsorptionPcts(
+                  Object.fromEntries(remaining.map((r) => [r.retailer_id, even]))
+                );
+              }}
+            >
+              Redistribute evenly
+            </button>
+            <button
+              className="absorption-preset-btn secondary"
+              onClick={() => {
+                setAbsorptionPcts(
+                  Object.fromEntries(remaining.map((r) => [r.retailer_id, 0]))
+                );
+              }}
+            >
+              Clear all
+            </button>
+          </div>
           <div className="absorption-list">
             {remaining.map((r) => {
               const pct = resolvedAbsorptionPcts[r.retailer_id] ?? 0;

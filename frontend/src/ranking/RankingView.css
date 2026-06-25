@@ -41,6 +41,15 @@
   outline-offset: 2px;
 }
 
+.ranking-hint {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--disabled);
+  align-self: center;
+  margin-left: 8px;
+  font-style: italic;
+}
+
 /* ── Chart wrapper (positions callout card absolutely) ───────────────────── */
 
 .ranking-chart-wrap {

@@ -14,17 +14,19 @@ interface Props {
 interface MiniChartProps {
   retailers: Retailer[];
   layerKey: keyof CostLayerBreakdown;
+  compareIds?: [string, string];
 }
 
-function LayerMiniChart({ retailers, layerKey }: MiniChartProps) {
+function LayerMiniChart({ retailers, layerKey, compareIds }: MiniChartProps) {
   const contributions = calculateContributions(retailers);
-  const walmart = contributions.find(r => r.retailer_id === 'walmart');
-  const costco = contributions.find(r => r.retailer_id === 'costco');
-  if (!walmart || !costco) return null;
+  const [idA, idB] = compareIds ?? ['walmart', 'costco'];
+  const rA = contributions.find(r => r.retailer_id === idA);
+  const rB = contributions.find(r => r.retailer_id === idB);
+  if (!rA || !rB) return null;
 
-  const wVal = walmart.cost_breakdown[layerKey];
-  const cVal = costco.cost_breakdown[layerKey];
-  const maxVal = Math.max(wVal, cVal, 1);
+  const aVal = rA.cost_breakdown[layerKey];
+  const bVal = rB.cost_breakdown[layerKey];
+  const maxVal = Math.max(aVal, bVal, 1);
   const BAR_H = 20;
   const MAX_W = 200;
 
@@ -33,40 +35,18 @@ function LayerMiniChart({ retailers, layerKey }: MiniChartProps) {
       width={MAX_W + 120}
       height={80}
       className="layer-mini-chart"
-      aria-label={`Cost comparison: Walmart vs Costco for this cost layer`}
+      aria-label={`Cost comparison: ${rA.name} vs ${rB.name} for this cost layer`}
     >
-      {/* Walmart bar */}
-      <text x={0} y={BAR_H / 2 + 4} className="mini-label">Walmart</text>
-      <rect
-        x={80}
-        y={0}
-        width={(wVal / maxVal) * MAX_W}
-        height={BAR_H}
-        fill="var(--tokyo-40)"
-      />
-      <text
-        x={80 + (wVal / maxVal) * MAX_W + 6}
-        y={BAR_H / 2 + 4}
-        className="mini-value"
-      >
-        {formatDollars(wVal)}
+      <text x={0} y={BAR_H / 2 + 4} className="mini-label">{rA.name}</text>
+      <rect x={80} y={0} width={(aVal / maxVal) * MAX_W} height={BAR_H} fill="var(--tokyo-40)" />
+      <text x={80 + (aVal / maxVal) * MAX_W + 6} y={BAR_H / 2 + 4} className="mini-value">
+        {formatDollars(aVal)}
       </text>
 
-      {/* Costco bar */}
-      <text x={0} y={BAR_H + 24 + BAR_H / 2 + 4} className="mini-label">Costco</text>
-      <rect
-        x={80}
-        y={BAR_H + 24}
-        width={(cVal / maxVal) * MAX_W}
-        height={BAR_H}
-        fill="var(--hk-35)"
-      />
-      <text
-        x={80 + (cVal / maxVal) * MAX_W + 6}
-        y={BAR_H + 24 + BAR_H / 2 + 4}
-        className="mini-value"
-      >
-        {formatDollars(cVal)}
+      <text x={0} y={BAR_H + 24 + BAR_H / 2 + 4} className="mini-label">{rB.name}</text>
+      <rect x={80} y={BAR_H + 24} width={(bVal / maxVal) * MAX_W} height={BAR_H} fill="var(--hk-35)" />
+      <text x={80 + (bVal / maxVal) * MAX_W + 6} y={BAR_H + 24 + BAR_H / 2 + 4} className="mini-value">
+        {formatDollars(bVal)}
       </text>
     </svg>
   );
@@ -102,12 +82,39 @@ export default function MethodologyView({ retailers, onContinue, onBack }: Props
       <div className="methodology-header">
         <h1 className="methodology-title">How is this calculated?</h1>
         <p className="methodology-intro">
-          Six cost layers sit between gross revenue and true contribution.
-          Most brands track one or two. This model attributes all six to
-          each retail account, using rates calibrated against CPG industry
+          True contribution starts at gross margin — revenue minus cost of goods
+          sold — then subtracts six operational cost layers that most brands
+          never attribute to a specific retailer. This model assigns all six
+          to each account, using rates calibrated against CPG industry
           benchmarks for specialty food brands at the $20–30M revenue scale.
+          Three retailers in this portfolio also carry distributor margin
+          (UNFI or KeHE), making seven layers total for those accounts.
         </p>
       </div>
+
+      {/* ── 0. COGS & Gross Margin ── */}
+      <section className="method-section">
+        <div className="method-section-header">
+          <h2 className="section-title">Cost of Goods Sold</h2>
+        </div>
+        <LayerMiniChart retailers={retailers} layerKey="gross_margin" />
+        <p className="section-body">
+          Everything below starts from gross margin, not gross revenue. COGS
+          rates in this model range from 46% (Costco) to 55% (Walmart),
+          reflecting the landed cost of goods including raw materials,
+          production, and packaging. These rates are structural — they move
+          with formulation changes and procurement strategy, not with buyer
+          negotiations. The gap between Walmart's 55% COGS and Costco's 46%
+          is itself a nine-point margin disadvantage before any retailer-specific
+          cost layer is applied.
+        </p>
+        <p className="section-body">
+          COGS is not a negotiation lever. It appears here because the
+          difference between gross revenue and gross margin is the single
+          largest determinant of whether a retailer can be profitable at all —
+          and it is the number a CFO will ask about first.
+        </p>
+      </section>
 
       {/* ── 1. Deductions & Chargebacks ── */}
       <section className="method-section">
@@ -257,10 +264,34 @@ export default function MethodologyView({ retailers, onContinue, onBack }: Props
         </p>
       </section>
 
+      {/* ── 7. Distributor Margin ── */}
+      <section className="method-section">
+        <div className="method-section-header">
+          <h2 className="section-title">Distributor Margin</h2>
+          <NegotiabilityTag label="Rarely" />
+        </div>
+        <LayerMiniChart retailers={retailers} layerKey="distributor_margin" compareIds={['whole_foods', 'sprouts']} />
+        <p className="section-body">
+          Retailers served through a distributor — Whole Foods via UNFI,
+          Sprouts and Regional Group via KeHE — carry an additional margin
+          layer. UNFI takes approximately 10% of wholesale; KeHE takes 8%.
+          This is not a fee the brand negotiates annually; it is a structural
+          cost of access. For Whole Foods at $3.3M gross revenue, the UNFI
+          margin is $328K — larger than many of the other cost layers combined.
+        </p>
+        <p className="section-body">
+          Distributor margin is rarely negotiable in isolation. It moves only
+          with significant volume commitments or when the brand has enough
+          scale to go direct-to-warehouse. For brands at the $20–30M
+          revenue range, the distributor relationship is a given; the cost
+          should be attributed, not ignored.
+        </p>
+      </section>
+
       {/* ── CTA ── */}
       <div className="methodology-cta">
         <p className="methodology-cta-label">
-          Six layers. Six retailers. One net-negative account.
+          Seven cost layers. Six retailers. One net-negative account.
         </p>
         <button className="methodology-cta-btn" onClick={onContinue}>
           Explore the simulator →

@@ -49,6 +49,7 @@ export default function RankingView({
         >
           By true contribution
         </button>
+        <span className="ranking-hint">Click any bar to see cost breakdown</span>
       </div>
 
       <div className="ranking-chart-wrap">

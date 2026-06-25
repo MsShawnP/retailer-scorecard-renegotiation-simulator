@@ -50,7 +50,21 @@ export default function App() {
         <span className="brand-name">Lailara LLC</span>
         <span className="brand-sub">Retailer Scorecard &amp; Renegotiation Simulator</span>
       </div>
-      <button className="nav-back" onClick={() => setView('entry')}>← Back to start</button>
+      <div className="nav-row">
+        <button className="nav-back" onClick={() => setView('entry')}>← Back to start</button>
+        {(Object.keys(overridesByRetailerId).length > 0 || walkedAwayIds.size > 0) && (
+          <button
+            className="global-reset"
+            onClick={() => {
+              setOverridesByRetailerId({});
+              setWalkedAwayIds(new Set());
+              setSelectedRetailerId('walmart');
+            }}
+          >
+            Reset everything to baseline
+          </button>
+        )}
+      </div>
       <RankingView retailers={retailers} overrides={overridesByRetailerId} />
       <SimulatorView
         retailers={retailers}
