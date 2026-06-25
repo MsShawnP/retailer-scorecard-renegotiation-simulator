@@ -120,16 +120,16 @@
   gap: 16px;
   flex-wrap: wrap;
   margin-bottom: 32px;
-  padding: 16px 20px;
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  background: var(--canvas);
 }
 
 .sim-summary-item {
   display: flex;
   flex-direction: column;
   min-width: 140px;
+  padding: 16px 24px;
+  background: var(--surface);
+  border-left: 4px solid var(--navy);
+  border-radius: 2px;
 }
 
 .sim-summary-label {
@@ -143,7 +143,7 @@
 
 .sim-summary-value {
   font-family: var(--font-serif);
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text-primary);
