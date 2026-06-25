@@ -141,6 +141,25 @@
   color: var(--text-primary);
 }
 
+.absorption-total {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+.absorption-total.over {
+  color: var(--sg-20);
+}
+
+.absorption-total-note {
+  font-weight: 400;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
 .absorption-list {
   display: flex;
   flex-direction: column;
