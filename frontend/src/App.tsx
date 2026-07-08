@@ -101,7 +101,7 @@ export default function App() {
       <div className="footer">
         <p>
           All figures synthetic. Rates calibrated against CPG industry benchmarks
-          for specialty food brands at the $20–30M revenue scale.
+          for specialty food brands at the ~$25M revenue scale.
         </p>
         <p>
           Built by <a href="https://lailarallc.com">Lailara LLC</a> —

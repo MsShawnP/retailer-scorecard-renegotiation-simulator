@@ -9,7 +9,7 @@ An interactive cost-to-serve model that reveals which retailers actually make mo
 Attributes six cost layers to each retailer account — deductions, trade spend, working-capital drag, labor overhead, swell/returns, and logistics variance — and ranks accounts by true contribution instead of gross revenue.
 
 - **Animated ranking flip** — gross revenue ranking inverts when true contribution is applied. The crown-jewel account by revenue ranks last after cost attribution.
-- **Renegotiation simulator** — five levers (trade spend rate, payment terms, compliance labor, swell rate, logistics variance) with negotiability tags and realistic ranges. Adjustments reshuffle rankings live.
+- **Renegotiation simulator** — five levers (trade spend rate, deductions rate, payment terms, swell/returns rate, logistics variance) with negotiability tags and realistic ranges. Adjustments reshuffle rankings live. Labor overhead is shown but held fixed — it is an internal operational cost, not a buyer-negotiable term.
 - **Walk-away toggle** — removes a retailer and models redeployment math: how much volume other accounts can absorb, with capacity constraint sliders the CEO can adjust per retailer.
 - **24-month trajectory projection** — compounding loss trajectory for unprofitable accounts, showing the cost of inaction over time.
 - **Methodology panel** — transparent, auditable breakdown of all six cost layers with formulas and assumptions visible.

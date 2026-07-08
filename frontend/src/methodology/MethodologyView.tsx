@@ -87,7 +87,7 @@ export default function MethodologyView({ retailers, onContinue, onBack }: Props
           sold — then subtracts six operational cost layers that most brands
           never attribute to a specific retailer. This model assigns all six
           to each account, using rates calibrated against CPG industry
-          benchmarks for specialty food brands at the $20–30M revenue scale.
+          benchmarks for specialty food brands at the ~$25M revenue scale.
           Three retailers in this portfolio also carry distributor margin
           (UNFI or KeHE), making seven layers total for those accounts.
         </p>
@@ -155,7 +155,7 @@ export default function MethodologyView({ retailers, onContinue, onBack }: Props
           advertising, promotional discounts, and major chain business (MCB)
           funding together represent 10–30% of gross revenue, depending on
           channel. Walmart's funding requirements run near the top of that range
-          for brands without leverage; specialty retailers like Sprouts run near
+          for brands without negotiating power; specialty retailers like Sprouts run near
           the bottom.
         </p>
         <p className="section-body">
@@ -283,8 +283,8 @@ export default function MethodologyView({ retailers, onContinue, onBack }: Props
         <p className="section-body">
           Distributor margin is rarely negotiable in isolation. It moves only
           with significant volume commitments or when the brand has enough
-          scale to go direct-to-warehouse. For brands at the $20–30M
-          revenue range, the distributor relationship is a given; the cost
+          scale to go direct-to-warehouse. For a brand at the ~$25M
+          revenue scale, the distributor relationship is a given; the cost
           should be attributed, not ignored.
         </p>
       </section>
@@ -302,7 +302,7 @@ export default function MethodologyView({ retailers, onContinue, onBack }: Props
       <div className="footer">
         <p>
           All figures synthetic. Rates calibrated against CPG industry benchmarks
-          for specialty food brands at the $20–30M revenue scale.
+          for specialty food brands at the ~$25M revenue scale.
         </p>
       </div>
     </div>

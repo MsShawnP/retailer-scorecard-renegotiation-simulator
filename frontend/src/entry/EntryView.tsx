@@ -40,9 +40,10 @@ export default function EntryView({ onExplore, onMethodology }: Props) {
 
       <div className="entry-meta">
         <p>
-          Built on synthetic Cinderhaven data. $17.2M retail portfolio revenue across
-          6 retail relationships. All cost-layer rates calibrated against
-          CPG industry benchmarks for specialty food brands at this scale.
+          Built on synthetic Cinderhaven data — a ~$25M specialty food brand, of
+          which $17.2M is the retail portfolio modeled here across 6 retail
+          relationships. All cost-layer rates calibrated against CPG industry
+          benchmarks for specialty food brands at that scale.
         </p>
       </div>
     </div>

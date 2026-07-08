@@ -9,7 +9,7 @@ cost-layer rates derived from historical aggregates).
 Falls back to SNAPSHOT DATA when Postgres is unavailable. The snapshot
 is grounded in Cinderhaven quarterly scan/order data (TTM Q3 2025 through
 Q2 2026) and calibrated against CPG industry norms for specialty food
-brands in the $20-30M revenue range.
+brands at the ~$25M revenue scale.
 
 Output: frontend/public/json/retailers.json
         tests/fixtures/retailer_profiles.json  (same data, used for
