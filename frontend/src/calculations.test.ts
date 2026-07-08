@@ -220,3 +220,111 @@ describe('fixture cross-validation', () => {
     });
   }
 });
+
+// ── Test 11: break-even + trajectory cross-validated against the Python engine ─
+// scenario_expected.json holds break-even values and trajectory spot-checks
+// produced by engine/cost_model.py. The old TS test only checked range/finiteness,
+// which is why the phantom break-even on profitable accounts slipped through.
+
+interface ScenarioFixture {
+  break_even_checks: Array<{
+    retailer_id: string;
+    lever: keyof LeverOverrides;
+    lever_range: { min: number; max: number };
+    expected_value: number | null;
+    tolerance?: number;
+  }>;
+  trajectory_checks: Array<{
+    retailer_id: string;
+    months: number;
+    spot_checks: Record<string, number>;
+  }>;
+}
+
+function loadScenario(): ScenarioFixture {
+  const fixturePath = path.resolve(process.cwd(), '..', 'tests', 'fixtures', 'scenario_expected.json');
+  return JSON.parse(readFileSync(fixturePath, 'utf-8')) as ScenarioFixture;
+}
+
+const scenario = loadScenario();
+
+const ALL_LEVERS: Array<keyof LeverOverrides> = [
+  'trade_spend_rate',
+  'deductions_rate',
+  'payment_terms_days',
+  'returns_rate',
+  'logistics_rate',
+];
+
+describe('findBreakEvenValue matches the Python engine fixture', () => {
+  for (const check of scenario.break_even_checks) {
+    const label = check.expected_value === null ? 'null' : String(check.expected_value);
+    it(`${check.retailer_id}/${check.lever}: break-even === ${label}`, () => {
+      const retailer = getRetailer(check.retailer_id);
+      const result = findBreakEvenValue(retailer, check.lever, {}, check.lever_range);
+      if (check.expected_value === null) {
+        expect(result).toBeNull();
+      } else {
+        expect(result).not.toBeNull();
+        expect(Math.abs((result as number) - check.expected_value)).toBeLessThanOrEqual(
+          check.tolerance ?? 1e-4,
+        );
+      }
+    });
+  }
+});
+
+// Regression for the phantom "Break-even at 4.0%" marker: an account that is
+// profitable across a lever's whole range has NO break-even, so findBreakEvenValue
+// must return null (matching the Python engine's None) — never leverRange.min.
+describe('no phantom break-even on already-profitable accounts', () => {
+  const profitable = expectedOutputs.filter((e) => e.expected.true_contribution >= 0);
+
+  for (const exp of profitable) {
+    it(`${exp.retailer_id}: levers it stays profitable across return null`, () => {
+      const retailer = getRetailer(exp.retailer_id);
+      for (const lever of ALL_LEVERS) {
+        const range = retailer.lever_ranges[lever];
+        const atMin = calcTrueContribution(retailer, { [lever]: range.min });
+        const atMax = calcTrueContribution(retailer, { [lever]: range.max });
+        if (atMin >= 0 && atMax >= 0) {
+          const bev = findBreakEvenValue(retailer, lever, {}, range);
+          expect(bev, `${exp.retailer_id}/${lever} should have no break-even marker`).toBeNull();
+        }
+      }
+    });
+  }
+
+  it('Costco is profitable across every lever range, so shows no break-even marker (was "4.0%")', () => {
+    const costco = getRetailer('costco');
+    for (const lever of ALL_LEVERS) {
+      const range = costco.lever_ranges[lever];
+      // Profitable at both ends of the range — the phantom-marker precondition.
+      expect(calcTrueContribution(costco, { [lever]: range.min })).toBeGreaterThanOrEqual(0);
+      expect(calcTrueContribution(costco, { [lever]: range.max })).toBeGreaterThanOrEqual(0);
+      const bev = findBreakEvenValue(costco, lever, {}, range);
+      expect(bev, `Costco/${lever} must not plant a phantom marker`).toBeNull();
+    }
+    // trade_spend_rate min is 0.04 — the exact "Break-even at 4.0%" the audit flagged.
+    expect(costco.lever_ranges.trade_spend_rate.min).toBe(0.04);
+    expect(findBreakEvenValue(costco, 'trade_spend_rate', {}, costco.lever_ranges.trade_spend_rate)).toBeNull();
+  });
+});
+
+describe('projectTrajectory matches the Python engine fixture', () => {
+  const TRAJ_TOLERANCE = 0.5;
+  for (const check of scenario.trajectory_checks) {
+    it(`${check.retailer_id}: 24-month trajectory matches engine spot-checks`, () => {
+      const retailer = getRetailer(check.retailer_id);
+      const traj = projectTrajectory(retailer, {}, check.months);
+      expect(traj).toHaveLength(check.months);
+      for (const [monthStr, expectedValue] of Object.entries(check.spot_checks)) {
+        const idx = Number(monthStr) - 1; // month 1 -> index 0
+        expect(
+          Math.abs(traj[idx] - expectedValue),
+          `${check.retailer_id} month ${monthStr}: expected ${expectedValue}, got ${traj[idx]}`,
+        ).toBeLessThanOrEqual(TRAJ_TOLERANCE);
+      }
+    });
+  }
+});

@@ -109,9 +109,12 @@ export function findBreakEvenValue(
   const atMin = evalAt(leverRange.min);
   const atMax = evalAt(leverRange.max);
 
-  // Already profitable across the entire range — return minimum value
-  if (atMin >= 0 && atMax >= 0) return leverRange.min;
-  // Never reaches break-even across the range — no sign change
+  // No sign change across the range — the lever alone never crosses zero, so
+  // there is no break-even. Return null (matches the Python engine's None) for
+  // both the already-profitable case and the never-profitable case. Returning
+  // leverRange.min here would plant a phantom marker on accounts that are
+  // profitable across the whole range (e.g. Costco showing "Break-even 4.0%").
+  if (atMin >= 0 && atMax >= 0) return null;
   if (atMin < 0 && atMax < 0) return null;
 
   // Sign change exists — bisect (matches Python sign-comparison logic)
