@@ -107,9 +107,9 @@ export default function RedeploymentView({
           note="Gross revenue no longer on the books"
         />
         <FreedStatCard
-          label="Working capital freed"
+          label="Annual carrying cost freed"
           value={formatDollars(freed.working_capital)}
-          note="Cash tied up in payment terms"
+          note="Yearly cost of financing the payment-terms float"
         />
         <FreedStatCard
           label="Trade spend reclaimed"
