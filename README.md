@@ -41,7 +41,7 @@ python -c "from engine.cost_model import calculate_contributions; print('ok')"
 Tests:
 
 ```bash
-cd frontend && npm test   # 77 frontend tests (Vitest)
+cd frontend && npm test   # 87 frontend tests (Vitest)
 pytest tests/             # 16 engine tests
 ```
 
@@ -50,7 +50,7 @@ pytest tests/             # 16 engine tests
 - React 19, TypeScript, D3 v7 (frontend SPA)
 - Python 3.13 cost-allocation engine (importable module)
 - Vite (build tooling)
-- Vitest + pytest (93 tests: 77 frontend, 16 engine)
+- Vitest + pytest (103 tests: 87 frontend, 16 engine)
 - Cloudflare Pages via Wrangler (deployment)
 - ESLint, @testing-library/react, jsdom (dev tooling)
 
