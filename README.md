@@ -11,7 +11,7 @@ Attributes six cost layers to each retailer account — deductions, trade spend,
 - **Animated ranking flip** — gross revenue ranking inverts when true contribution is applied. The crown-jewel account by revenue ranks last after cost attribution.
 - **Renegotiation simulator** — five levers (trade spend rate, deductions rate, payment terms, swell/returns rate, logistics variance) with negotiability tags and realistic ranges. Adjustments reshuffle rankings live. Labor overhead is shown but held fixed — it is an internal operational cost, not a buyer-negotiable term.
 - **Walk-away toggle** — removes a retailer and models redeployment math: how much volume other accounts can absorb, with capacity constraint sliders the CEO can adjust per retailer.
-- **24-month trajectory projection** — compounding loss trajectory for unprofitable accounts, showing the cost of inaction over time.
+- **24-month trajectory projection** — projects each account's contribution forward at its growth rate. An unprofitable account's loss persists month after month as a standing drag; because the loss here is dominated by fixed labor, it holds roughly steady rather than compounding sharply.
 - **Methodology panel** — transparent, auditable breakdown of all six cost layers with formulas and assumptions visible.
 
 ## Why it matters
