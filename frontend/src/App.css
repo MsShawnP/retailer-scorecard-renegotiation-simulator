@@ -90,9 +90,9 @@
   --pass-text: var(--hk-25);
   --warn-bg: var(--sg-95);
   --warn-text: var(--sg-20);
-  --fail-bg: #fde8e7;
+  --fail-bg: #fce8e7;
   --fail-text: #7a0906;
-  --info-bg: #e5e8f5;
+  --info-bg: #e8eaf4;
   --info-text: var(--navy);
 
   /* ── Dark card (click-to-pin) ────────────────────────────── */
