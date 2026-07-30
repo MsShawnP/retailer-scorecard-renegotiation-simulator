@@ -213,7 +213,7 @@ body {
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin-bottom: 16px;
-  max-width: 660px;
+  max-width: var(--ll-body-max-width, 720px);
 }
 
 .subhead {
@@ -221,7 +221,7 @@ body {
   font-size: 18px;
   line-height: 1.6;
   color: var(--text-secondary);
-  max-width: 660px;
+  max-width: var(--ll-body-max-width, 720px);
 }
 
 /* ─── Stats ───────────────────────────────────────────────── */
@@ -269,7 +269,7 @@ body {
   font-size: 11px;
   font-style: italic;
   color: var(--text-secondary);
-  max-width: 660px;
+  max-width: var(--ll-body-max-width, 720px);
   line-height: 1.5;
 }
 
@@ -293,7 +293,7 @@ body {
   font-family: var(--font-sans);
   font-size: 17px;
   line-height: 1.6;
-  max-width: 660px;
+  max-width: var(--ll-body-max-width, 720px);
   color: var(--text-secondary);
 }
 
@@ -454,7 +454,7 @@ button:focus-visible {
   padding-left: 12px;
   border-left: 3px solid var(--border);
   color: var(--text-secondary);
-  max-width: 660px;
+  max-width: var(--ll-body-max-width, 720px);
 }
 
 /* ─── Footer ──────────────────────────────────────────────── */
@@ -470,7 +470,7 @@ button:focus-visible {
   font-size: 11px;
   font-style: italic;
   color: var(--text-secondary);
-  max-width: 660px;
+  max-width: var(--ll-body-max-width, 720px);
 }
 
 .footer p + p {
