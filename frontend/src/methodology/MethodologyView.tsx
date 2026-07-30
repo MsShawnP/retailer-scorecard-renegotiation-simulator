@@ -178,7 +178,7 @@ export default function MethodologyView({ retailers, onContinue, onBack }: Props
         <LayerMiniChart retailers={retailers} layerKey="working_capital_drag" />
         <p className="section-body">
           Payment terms are a tax on growth. At net 60 terms — standard for
-          Walmart — the brand is effectively lending the retailer three weeks of
+          Walmart — the brand is effectively lending the retailer two months of
           revenue, paid back at the brand's cost of capital. For a brand with 12%
           blended cost of capital, 60-day terms on a $3.6M Walmart relationship
           cost $71,000 per year. That is not a rounding error. It is a meaningful
