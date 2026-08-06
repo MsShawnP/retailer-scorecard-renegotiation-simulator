@@ -70,6 +70,21 @@ def test_deliverable_prints_basis_and_draft(tmp_path):
     assert "Basis" in html   # provenance footer extra
 
 
+def test_basis_label_pins_the_full_attribution_string(tmp_path):
+    """This money tool renders a FIXED basis (full cost attribution, six named
+    layers) with no data-dependent window/period — so the label-text convention
+    here is to pin the COMPLETE basis string, not a distinctive-input span. The
+    deliverable test asserts only the 'full cost attribution' prefix; a silent
+    edit that dropped a cost layer (e.g. 'logistics') from the basis wording
+    would pass it while misstating what the money figure attributes. Pinning the
+    full string is the mislabel guard for a constant-basis money figure."""
+    inp = _write(tmp_path)
+    res = client_mode.run(str(_cfg(tmp_path)), str(inp), str(tmp_path / "out"))
+    html = Path(res["report"]).read_text(encoding="utf-8")
+    assert ("full cost attribution — six layers (deductions, trade spend, "
+            "working-capital drag, labor, swell/returns, logistics) + distributor margin") in html
+
+
 def test_missing_deductions_rate_blocks(tmp_path):
     import pandas as pd
     inp = tmp_path / "retailers.csv"
